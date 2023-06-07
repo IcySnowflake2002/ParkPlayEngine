@@ -2,6 +2,7 @@
 
 typedef void* SDL_GLContext;
 struct SDL_Window;
+class VertexArrayObject;
 
 class GraphicsEngine {
 
@@ -37,4 +38,7 @@ private: //variables
 	SDL_GLContext Renderer;
 	SDL_Window* Window;
 
+	//DEBUG VARIABLES
+	VertexArrayObject* TriangleVAO;
+	VertexArrayObject* PolygonVAO;
 };

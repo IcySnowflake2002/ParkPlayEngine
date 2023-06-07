@@ -3,6 +3,10 @@
 #include "GLEW/glew.h"
 #include "CoreMinimal.h"
 
+//DEBUG INCLUDES
+#include "graphics/VertexArrayObject.h"
+#include "graphics/ShapeMatrices.h"
+
 GraphicsEngine::GraphicsEngine()
 {
 	Window = nullptr;
@@ -99,6 +103,15 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
+	if (TriangleVAO == nullptr) {
+		TArray<PPVertex> Vertices = PPVertex::ConvertShapeMatrix(ppsm::Triangle);
+
+		TriangleVAO = new VertexArrayObject(Vertices, ppsm::Triangle.Indices);
+	}
+
+	if (TriangleVAO != nullptr) {
+		TriangleVAO->Draw();
+	}
 }
 
 void GraphicsEngine::PresentGraphics()

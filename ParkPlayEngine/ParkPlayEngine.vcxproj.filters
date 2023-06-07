@@ -27,6 +27,9 @@
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\developer\private\graphics\VertexArrayObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\dependencies\includes\STBIMAGE\stb_image.h">
@@ -39,6 +42,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\developer\public\CoreMinimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\public\graphics\VertexArrayObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\private\HeaderTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\public\graphics\ShapeMatrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
