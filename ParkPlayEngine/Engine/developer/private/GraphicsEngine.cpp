@@ -103,15 +103,33 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
-	if (TriangleVAO == nullptr) {
-		TArray<PPVertex> Vertices = PPVertex::ConvertShapeMatrix(ppsm::Triangle);
+	//Creating the VAO
+	TArray<PPVertex> Vertices = PPVertex::ConvertShapeMatrix(ppsm::Triangle);
 
+	//Checking if shape has not yet been loaded
+		// Loading Triangle
+	if (TriangleVAO == nullptr) {
+		PP_MSG_LOG("GE", "Triangle");
 		TriangleVAO = new VertexArrayObject(Vertices, ppsm::Triangle.Indices);
 	}
 
+		//Loading Polygon
+	if (PolygonVAO == nullptr) {
+		PP_MSG_LOG("GE", "Polygon");
+		Vertices = PPVertex::ConvertShapeMatrix(ppsm::Polygon);
+
+		PolygonVAO == new VertexArrayObject(Vertices, ppsm::Polygon.Indices);
+	}
+
+	//Drawing the VAO to the screen
 	if (TriangleVAO != nullptr) {
 		TriangleVAO->Draw();
 	}
+
+	if (PolygonVAO != nullptr) {
+		PolygonVAO->Draw();
+	}
+
 }
 
 void GraphicsEngine::PresentGraphics()

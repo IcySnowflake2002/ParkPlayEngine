@@ -94,7 +94,12 @@ void VertexArrayObject::Draw()
 	Bind();
 	glDrawElements(GL_TRIANGLES, IndexData.size(), GL_UNSIGNED_INT, 0);
 
-	for (f)
+	for (PPUint index : IndexData) {
+		PP_MSG_LOG("Vertex Array Object", 
+			VertexData[index].position.x, << ", " << 
+			VertexData[index].position.y << ", " << 
+			VertexData[index].position.z);
+	}
 
 	PP_MSG_LOG("Vertex Array Object", "Draw Working!");
 	Unbind();
