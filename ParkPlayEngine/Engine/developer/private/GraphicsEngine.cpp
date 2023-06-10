@@ -113,6 +113,13 @@ void GraphicsEngine::DrawGraphics()
 		TriangleVAO = new VertexArrayObject(Vertices, ppsm::Triangle.Indices);
 	}
 
+	//Drawing the VAO Triangle to the screen
+	if (TriangleVAO != nullptr) {
+		TriangleVAO->Draw();
+	}
+
+	Vertices = PPVertex::ConvertShapeMatrix(ppsm::Polygon);
+
 		//Loading Polygon
 	if (PolygonVAO == nullptr) {
 		PP_MSG_LOG("GE", "Polygon");
@@ -121,11 +128,7 @@ void GraphicsEngine::DrawGraphics()
 		PolygonVAO == new VertexArrayObject(Vertices, ppsm::Polygon.Indices);
 	}
 
-	//Drawing the VAO to the screen
-	if (TriangleVAO != nullptr) {
-		TriangleVAO->Draw();
-	}
-
+	//Drawing the VAO Polygon to the screen
 	if (PolygonVAO != nullptr) {
 		PolygonVAO->Draw();
 	}

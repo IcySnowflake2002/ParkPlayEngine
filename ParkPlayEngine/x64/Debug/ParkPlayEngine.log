@@ -1,19 +1,6 @@
-﻿  Game.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20,21): error C2039: 'vector': is not a member of 'std'
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\iostream(19,1): message : see declaration of 'std'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20): error C2061: syntax error: identifier 'vector'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\includes\SDL2\SDL_stdinc.h(185,1): error C2631: '<unnamed-tag>': a class or enum cannot be defined in an alias template
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\Game.cpp(105,1): fatal  error C1004: unexpected end-of-file found
-  GraphicsEngine.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20,21): error C2039: 'vector': is not a member of 'std'
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\iostream(19,1): message : see declaration of 'std'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20): error C2061: syntax error: identifier 'vector'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\includes\GLM\detail\setup.hpp(632,1): error C2631: 'is_int': a class or enum cannot be defined in an alias template
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\includes\GLM\detail\setup.hpp(649,2): fatal  error C1903: unable to recover from previous error(s); stopping compilation
-  VertexArrayObject.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20,21): error C2039: 'vector': is not a member of 'std'
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\iostream(19,1): message : see declaration of 'std'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\CoreMinimal.h(20): error C2061: syntax error: identifier 'vector'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\includes\GLM\detail\setup.hpp(632,1): error C2631: 'is_int': a class or enum cannot be defined in an alias template
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\includes\GLM\detail\setup.hpp(649,2): fatal  error C1903: unable to recover from previous error(s); stopping compilation
-  Generating Code...
+﻿  GraphicsEngine.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(127,14): warning C4553: '==': result of expression not used; did you intend '='?
+  ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
+  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
+  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
+          2 file(s) copied.

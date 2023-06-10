@@ -101,7 +101,7 @@ void VertexArrayObject::Draw()
 			VertexData[index].position.z);
 	}
 
-	PP_MSG_LOG("Vertex Array Object", "Draw Working!");
+	//PP_MSG_LOG("Vertex Array Object", "Draw Working!");
 	Unbind();
 }
 
