@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <string>
 
 //#define allows for macros
 
@@ -22,4 +23,6 @@ using TArray = std::vector<T>;
 
 // at compile time replace all instances of PPUint with unsigned int
 typedef unsigned int PPUint;
+
+typedef std::string PPString;
 

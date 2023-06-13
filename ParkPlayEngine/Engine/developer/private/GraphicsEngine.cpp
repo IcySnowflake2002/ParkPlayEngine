@@ -6,11 +6,16 @@
 //DEBUG INCLUDES
 #include "graphics/VertexArrayObject.h"
 #include "graphics/ShapeMatrices.h"
+#include "graphics/ShaderProgram.h"
 
 GraphicsEngine::GraphicsEngine()
 {
 	Window = nullptr;
 	Renderer = nullptr;
+	TriangleVAO = nullptr;
+	PolygonVAO = nullptr;
+	ParallelVAO = nullptr;
+	VCShader = nullptr;
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -45,8 +50,8 @@ bool GraphicsEngine::Initialise()
 		"ParkPlay Engine | An OpenGL Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		1280,
+		720,
 		WindowFlags);
 
 	//if the window fails to create, fail the app and print error message to console
@@ -78,6 +83,27 @@ bool GraphicsEngine::Initialise()
 		return false;
 	}
 
+	//DEBUG - Shaders
+	VCShader = new ShaderProgram();
+
+	//Importing the shaders from their files
+	//vertex shader
+	PPShaderInfo VShader(
+		PPShaderTypes::VERTEX,
+		"Engine/developer/shaders/VColour/VColor.ppvshader"
+	);
+	//fragment shader
+	PPShaderInfo FShader(
+		PPShaderTypes::FRAGMENT,
+		"Engine/developer/shaders/VColour/VColor.ppfshader"
+	);
+
+	//load the shader
+	if (!VCShader->LoadShader({ VShader, FShader })) {
+		delete VCShader;
+		PP_MSG_ERR("Graphics Engine", "Vertex Colour Shader failed");
+	}
+
 	return true;
 }
 
@@ -103,6 +129,13 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	//run the shader program and apply colours and transforms
+	if (VCShader != nullptr) {
+		VCShader->Run();
+	}
+
 	//Creating the VAO
 	TArray<PPVertex> Vertices = PPVertex::ConvertShapeMatrix(ppsm::Triangle);
 
@@ -118,14 +151,12 @@ void GraphicsEngine::DrawGraphics()
 		TriangleVAO->Draw();
 	}
 
-	Vertices = PPVertex::ConvertShapeMatrix(ppsm::Polygon);
-
 		//Loading Polygon
 	if (PolygonVAO == nullptr) {
 		PP_MSG_LOG("GE", "Polygon");
 		Vertices = PPVertex::ConvertShapeMatrix(ppsm::Polygon);
 
-		PolygonVAO == new VertexArrayObject(Vertices, ppsm::Polygon.Indices);
+		PolygonVAO = new VertexArrayObject(Vertices, ppsm::Polygon.Indices);
 	}
 
 	//Drawing the VAO Polygon to the screen
@@ -133,6 +164,18 @@ void GraphicsEngine::DrawGraphics()
 		PolygonVAO->Draw();
 	}
 
+		//Loading Parallelogram
+	if (ParallelVAO == nullptr) {
+		PP_MSG_LOG("GE", "Parallel");
+		Vertices = PPVertex::ConvertShapeMatrix(ppsm::Parallel);
+
+		ParallelVAO = new VertexArrayObject(Vertices, ppsm::Parallel.Indices);
+	}
+
+	//Drawing the parallelogram
+	if (ParallelVAO != nullptr) {
+		ParallelVAO->Draw();
+	}
 }
 
 void GraphicsEngine::PresentGraphics()

@@ -3,6 +3,7 @@
 typedef void* SDL_GLContext;
 struct SDL_Window;
 class VertexArrayObject;
+class ShaderProgram;
 
 class GraphicsEngine {
 
@@ -41,4 +42,6 @@ private: //variables
 	//DEBUG VARIABLES
 	VertexArrayObject* TriangleVAO;
 	VertexArrayObject* PolygonVAO;
+	VertexArrayObject* ParallelVAO;
+	ShaderProgram* VCShader;
 };

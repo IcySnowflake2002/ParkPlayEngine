@@ -136,6 +136,7 @@
     <ClCompile Include="Engine\dependencies\includes\STBIMAGE\stb_image.cpp" />
     <ClCompile Include="Engine\developer\private\Game.cpp" />
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp" />
+    <ClCompile Include="Engine\developer\private\graphics\ShaderProgram.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\VertexArrayObject.cpp" />
     <ClCompile Include="Engine\Source.cpp" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="Engine\developer\public\CoreMinimal.h" />
     <ClInclude Include="Engine\developer\public\Game.h" />
     <ClInclude Include="Engine\developer\public\GraphicsEngine.h" />
+    <ClInclude Include="Engine\developer\public\graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\developer\public\graphics\ShapeMatrices.h" />
     <ClInclude Include="Engine\developer\public\graphics\VertexArrayObject.h" />
   </ItemGroup>

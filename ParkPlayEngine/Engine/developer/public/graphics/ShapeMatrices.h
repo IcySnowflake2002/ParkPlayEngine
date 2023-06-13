@@ -14,9 +14,9 @@ namespace ppsm {
 		{
 			//Storing the triangle positions
 			//x		//y		//z
-			0.5f,	0.5f,	0.0f,	//0 - top of triangle
-			-0.5f,	-0.5f,	0.0f,	//1 - bottom left of the triangle
-			0.5f,	-0.5f,	0.0f	//2 - bottom right of the triangle
+			0.0f,	0.75f,	0.0f,	//0 - top of triangle
+			-0.5f,	-0.75f,	0.0f,	//1 - bottom left of the triangle
+			0.5f,	-0.75f,	0.0f	//2 - bottom right of the triangle
 		}, 
 		{
 			//creating the triangle
@@ -35,6 +35,22 @@ namespace ppsm {
 		},
 		{
 			//Creating the triangles/square
+			0, 1, 2,	//triangle 1
+			1, 2, 3		//triangle 2
+		}
+	);
+
+	static const ShapeMatrices Parallel(
+		{
+			//storing the circle positions
+			//x		//y		//z
+			-0.10,	0.2,	0.0,	//0 - top left
+			0.4,	0.2,	0.0,	//1 - top right
+			-0.4,	-0.4,	0.0,	//2 - bottom left
+			0.10,	-0.4,	0.0		//3 - bottom right
+		},
+		{
+			//creatomg the parallelogram
 			0, 1, 2,	//triangle 1
 			1, 2, 3		//triangle 2
 		}

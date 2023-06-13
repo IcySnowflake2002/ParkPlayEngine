@@ -1,5 +1,6 @@
 #include "graphics/VertexArrayObject.h"
 #include "graphics/ShapeMatrices.h"
+#include "CoreMinimal.h"
 #include "GLEW/glew.h"
 
 VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData)
@@ -70,7 +71,7 @@ void VertexArrayObject::GenerateAndSetBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, VboID);
 	//set the values
 	glBufferData(GL_ARRAY_BUFFER,
-		VertexData.size(), //size of the buffer
+		VertexData.size() * sizeof(PPVertex), //size of the buffer
 		VertexData.data(), //the data to use in the buffer
 		GL_STATIC_DRAW);
 	
@@ -83,7 +84,7 @@ void VertexArrayObject::GenerateAndSetBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EabID);
 
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-		IndexData.size(),
+		IndexData.size() * sizeof(PPUint),
 		IndexData.data(),
 		GL_STATIC_DRAW);
 
@@ -93,13 +94,6 @@ void VertexArrayObject::Draw()
 {
 	Bind();
 	glDrawElements(GL_TRIANGLES, IndexData.size(), GL_UNSIGNED_INT, 0);
-
-	for (PPUint index : IndexData) {
-		PP_MSG_LOG("Vertex Array Object", 
-			VertexData[index].position.x, << ", " << 
-			VertexData[index].position.y << ", " << 
-			VertexData[index].position.z);
-	}
 
 	//PP_MSG_LOG("Vertex Array Object", "Draw Working!");
 	Unbind();

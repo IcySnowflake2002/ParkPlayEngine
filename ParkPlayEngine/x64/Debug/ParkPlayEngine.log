@@ -1,6 +1,5 @@
-﻿  GraphicsEngine.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(127,14): warning C4553: '==': result of expression not used; did you intend '='?
-  ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
-  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
-  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
+﻿  ShaderProgram.cpp
+  ParkPlayEngine.vcxproj -> C:\Users\9092\Documents\GitHub\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
           2 file(s) copied.
