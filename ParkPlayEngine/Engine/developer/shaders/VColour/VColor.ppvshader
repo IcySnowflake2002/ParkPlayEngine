@@ -2,7 +2,16 @@
 
 // getting the attribute pointer at the 0 location (vertex positions for us)
 layout(location = 0) in vec3 InPosition;
+layout(location = 4) in vec3 InColour;
+
+out vec3 VertexColour;
+
+//converting into mat4(1.0f, 1.0f, 1.0f, 1.0f)
+//if you want to write different values in each of the four values, you will need to type them all individually.
+uniform mat4 Transform = mat4(1.0f);
 
 void main() {
-	gl_Position = vec4(InPosition, 1.0f);
+	gl_Position = Transform * vec4(InPosition, 1.0f);
+
+	VertexColour = InColour;
 }

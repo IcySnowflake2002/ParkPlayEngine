@@ -2,20 +2,24 @@
 #include "SDL2/SDL.h"
 #include "GLEW/glew.h"
 #include "CoreMinimal.h"
+#include "graphics/Mesh.h"
+#include "graphics/ShaderProgram.h"
 
 //DEBUG INCLUDES
-#include "graphics/VertexArrayObject.h"
 #include "graphics/ShapeMatrices.h"
-#include "graphics/ShaderProgram.h"
+#include "PPTransform.h"
+
 
 GraphicsEngine::GraphicsEngine()
 {
 	Window = nullptr;
 	Renderer = nullptr;
-	TriangleVAO = nullptr;
-	PolygonVAO = nullptr;
-	ParallelVAO = nullptr;
 	VCShader = nullptr;
+
+	//debug
+	TriMesh = nullptr;
+	PolyMesh = nullptr;
+	ParaMesh = nullptr;
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -50,8 +54,8 @@ bool GraphicsEngine::Initialise()
 		"ParkPlay Engine | An OpenGL Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		1280,
-		720,
+		800,
+		800,
 		WindowFlags);
 
 	//if the window fails to create, fail the app and print error message to console
@@ -102,6 +106,35 @@ bool GraphicsEngine::Initialise()
 	if (!VCShader->LoadShader({ VShader, FShader })) {
 		delete VCShader;
 		PP_MSG_ERR("Graphics Engine", "Vertex Colour Shader failed");
+		return false;
+	}
+
+	//intialise with shapes filled
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	//DEBUG - Initalise meshes
+	TriMesh = CreateShapeMesh(ppsm::Triangle, VCShader);
+	PolyMesh = CreateShapeMesh(ppsm::Polygon, VCShader);
+	ParaMesh = CreateShapeMesh(ppsm::Parallel, VCShader);
+
+	//Triangle Mesh Transforms
+	if (TriMesh != nullptr) {
+		TriMesh->Transform.Location.x = 0.5f;
+		TriMesh->Transform.Location.y = 0.5f;
+		TriMesh->Transform.Scale = glm::vec3(0.8f);
+	}
+
+	//Polygon Mesh Transforms
+	if (PolyMesh != nullptr) {
+		PolyMesh->Transform.Location.x = -0.5f;
+		PolyMesh->Transform.Location.y = 0.4f;
+		PolyMesh->Transform.Scale = glm::vec3(0.5f);
+		PolyMesh->Transform.Rotation.z = 45.0f;
+	}
+
+	//Parallelogram Mesh Transforms
+	if (ParaMesh != nullptr) {
+		ParaMesh->Transform.Location.y = -0.4f;
 	}
 
 	return true;
@@ -129,52 +162,15 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	//run the shader program and apply colours and transforms
-	if (VCShader != nullptr) {
-		VCShader->Run();
+	
+	//Make the Parallelogram rotate forever
+	if (ParaMesh != nullptr) {
+		ParaMesh->Transform.Rotation.z += 0.01f;
 	}
 
-	//Creating the VAO
-	TArray<PPVertex> Vertices = PPVertex::ConvertShapeMatrix(ppsm::Triangle);
-
-	//Checking if shape has not yet been loaded
-		// Loading Triangle
-	if (TriangleVAO == nullptr) {
-		PP_MSG_LOG("GE", "Triangle");
-		TriangleVAO = new VertexArrayObject(Vertices, ppsm::Triangle.Indices);
-	}
-
-	//Drawing the VAO Triangle to the screen
-	if (TriangleVAO != nullptr) {
-		TriangleVAO->Draw();
-	}
-
-		//Loading Polygon
-	if (PolygonVAO == nullptr) {
-		PP_MSG_LOG("GE", "Polygon");
-		Vertices = PPVertex::ConvertShapeMatrix(ppsm::Polygon);
-
-		PolygonVAO = new VertexArrayObject(Vertices, ppsm::Polygon.Indices);
-	}
-
-	//Drawing the VAO Polygon to the screen
-	if (PolygonVAO != nullptr) {
-		PolygonVAO->Draw();
-	}
-
-		//Loading Parallelogram
-	if (ParallelVAO == nullptr) {
-		PP_MSG_LOG("GE", "Parallel");
-		Vertices = PPVertex::ConvertShapeMatrix(ppsm::Parallel);
-
-		ParallelVAO = new VertexArrayObject(Vertices, ppsm::Parallel.Indices);
-	}
-
-	//Drawing the parallelogram
-	if (ParallelVAO != nullptr) {
-		ParallelVAO->Draw();
+	// loop through all of the mesh stack elements
+	for (Mesh* LMesh : MeshStack) {
+		LMesh->Draw();
 	}
 }
 
@@ -182,4 +178,20 @@ void GraphicsEngine::PresentGraphics()
 {
 	//present the opengl renderer to the window
 	SDL_GL_SwapWindow(Window);
+}
+
+Mesh* GraphicsEngine::CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader)
+{
+	Mesh* NewMesh = new Mesh(Shader);
+
+	if (!NewMesh->InitaliseVAO(Shape)) {
+		PP_MSG_ERR("GE", "Mesh VAO could not be created.");
+
+		return nullptr;
+	}
+
+	//add our new mesh into the mesh stack
+	MeshStack.push_back(NewMesh);
+
+	return NewMesh;
 }

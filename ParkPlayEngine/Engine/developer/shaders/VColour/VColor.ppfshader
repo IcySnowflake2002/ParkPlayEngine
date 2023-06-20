@@ -1,9 +1,10 @@
 #version 460 core
 
+in vec3 VertexColour;
 out vec4 FragColor;
 
 void main() {
-	//r (red), g (green), b (blue), a (alpha)
-	//these values range from 0.0f to 1.0f
-	FragColor = vec4( 1.0f, 0.0f, 0.0f, 1.0f );
+	//Substitute the rgb values as VertexColour as it has the rgb values inside of it
+
+	FragColor = vec4( VertexColour, 1.0f );
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include "CoreMinimal.h"
+
 
 class HeaderTemplate {
 public: //functions

@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "GLM/glm.hpp"
 
 //Store the shader types
 enum PPShaderTypes : PPUint{
@@ -33,6 +34,8 @@ public: //functions
 
 	//returns the OpenGL ID for the shader
 	PPUint GetID() const { return ProgramID; }
+
+	void SetUniformTransform(glm::mat4 Transform);
 
 public: //variables
 

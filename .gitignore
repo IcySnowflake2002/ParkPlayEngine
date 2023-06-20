@@ -30,6 +30,6 @@
 *.app
 
 # Visual Studio
-.vs/
-x64/
-Debug/
+.vs/*
+x64/*
+Debug/*

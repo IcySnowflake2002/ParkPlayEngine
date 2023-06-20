@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GLEW/glew.h"
 
-VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData)
+VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData, const PPUint RowSize)
 	: VertexData(vertexData), IndexData(indexData)
 {
 	VaoID = VboID = EabID = 0;
@@ -25,7 +25,12 @@ VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const T
 	GenerateAndSetBuffers();
 
 	// save the data in the vertex matrix to a readable format for shaders
-	SetAttributePointer(0, 3, GL_FLOAT, 3 * sizeof(float), 0);
+	//point to the positions in the vertex matix
+	//find the positions in the vertex
+	SetAttributePointer(0, 3, GL_FLOAT, RowSize * sizeof(float), 0);
+
+	//store the colour of the shader
+	SetAttributePointer(4, 3, GL_FLOAT, RowSize * sizeof(float), (void*) (3 * sizeof(float)));
 
 	//Once everything is set clear the VAO from the VAO slot
 	Unbind();
@@ -105,12 +110,15 @@ TArray<PPVertex> PPVertex::ConvertShapeMatrix(ShapeMatrices Shape)
 	TArray<PPVertex> VertexArray;
 
 	// loop every 3 positions since we know a vertex is made up of 3 numbers (x, y, z)
-	for (PPUint i = 0; i < Shape.Positions.size(); i += 3) {
+	for (PPUint i = 0; i < Shape.Data.size(); i += Shape.RowSize) {
 		// assign the number based on the index + its relevant value
-		glm::vec3 vPosition = glm::vec3(Shape.Positions[i], Shape.Positions[i + 1], Shape.Positions[i + 2]);
+		//this will get position
+		glm::vec3 vPosition = glm::vec3(Shape.Data[i], Shape.Data[i + 1], Shape.Data[i + 2]);
+		//this will get colour
+		glm::vec3 vColour = glm::vec3(Shape.Data[i + 3], Shape.Data[i + 4], Shape.Data[i + 5]);
 
 		// add the position into the vertex array
-		VertexArray.push_back(vPosition);
+		VertexArray.push_back(PPVertex(vPosition, vColour));
 	}
 
 	return VertexArray;

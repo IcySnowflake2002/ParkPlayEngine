@@ -1,9 +1,11 @@
 #pragma once
+#include "CoreMinimal.h"
 
 typedef void* SDL_GLContext;
 struct SDL_Window;
-class VertexArrayObject;
+class Mesh;
 class ShaderProgram;
+class ShapeMatrices;
 
 class GraphicsEngine {
 
@@ -29,6 +31,9 @@ public: //functions
 	//This will present the new frame to the renderer
 	void PresentGraphics();
 
+	//Create a shape matrix to create a mesh
+	Mesh* CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader);
+
 private: //functions
 
 
@@ -39,9 +44,12 @@ private: //variables
 	SDL_GLContext Renderer;
 	SDL_Window* Window;
 
-	//DEBUG VARIABLES
-	VertexArrayObject* TriangleVAO;
-	VertexArrayObject* PolygonVAO;
-	VertexArrayObject* ParallelVAO;
 	ShaderProgram* VCShader;
+
+	//DEBUG VARIABLES
+	//VertexArrayObject* ParallelVAO;
+	TArray<Mesh*> MeshStack;
+	Mesh* PolyMesh;
+	Mesh* TriMesh;
+	Mesh* ParaMesh;
 };

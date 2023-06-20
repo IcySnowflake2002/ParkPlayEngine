@@ -1,5 +1,6 @@
 #include "graphics/ShaderProgram.h"
 #include "GLEW/glew.h"
+#include "GLM/gtc/type_ptr.hpp"
 
 // give us the ability to convert text file into a string
 #include <fstream>
@@ -81,6 +82,15 @@ void ShaderProgram::Run() const
 	else {
 		PP_MSG_ERR("Shader Program", "Cannot run shader as it doesn't exist.");                        
 	}
+}
+
+void ShaderProgram::SetUniformTransform(glm::mat4 Transform)
+{
+	// find the uniform variable in the shader by name
+	int UniformLoc = glGetUniformLocation(ProgramID, "Transform");
+
+	//we change the value
+	glUniformMatrix4fv(UniformLoc, 1, GL_FALSE, value_ptr(Transform));
 }
 
 PPUint ShaderProgram::CreateShader(PPShaderTypes ShaderType, const PPString& FilePath)

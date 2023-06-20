@@ -1,5 +1,15 @@
-﻿  ShaderProgram.cpp
-  ParkPlayEngine.vcxproj -> C:\Users\9092\Documents\GitHub\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
-  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
-  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
+﻿  GraphicsEngine.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(8,21): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\GraphicsEngine.h(8,7): message : see declaration of 'ShapeMatrices'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(4,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(4,8): message : see declaration of 'ShapeMatrices'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(61,2): warning C4305: 'initializing': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+  ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
+  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
+  C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
           2 file(s) copied.
