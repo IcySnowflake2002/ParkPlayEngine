@@ -1,0 +1,19 @@
+#version 460 core
+// fragment shader
+
+
+in vec2 TexCoords;
+out vec4 FragColor;
+
+//uniform means accept value from C++
+//sampler2D is a texture file
+//openGL stores texture files as integers in an array
+uniform sampler2D Texture;
+
+void main() {
+	// get the colours from the texture
+	vec4 BaseColour = texture(Texture, TexCoords);
+
+	//Pass the base colour into the colour of the shader
+	FragColor = BaseColour;
+}

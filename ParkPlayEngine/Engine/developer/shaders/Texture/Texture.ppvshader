@@ -1,0 +1,18 @@
+#version 460 core
+// vertex shader
+
+// getting the attribute pointer at the 0 location (vertex positions for us)
+layout(location = 0) in vec3 InPosition;
+layout(location = 4) in vec2 InTexCoords;
+
+out vec2 TexCoords;
+
+//converting into mat4(1.0f, 1.0f, 1.0f, 1.0f)
+//if you want to write different values in each of the four values, you will need to type them all individually.
+uniform mat4 Transform = mat4(1.0f);
+
+void main() {
+	gl_Position = Transform * vec4(InPosition, 1.0f);
+
+	TexCoords = InTexCoords;
+}
