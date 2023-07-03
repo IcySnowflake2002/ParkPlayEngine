@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "graphics/Mesh.h"
 #include "graphics/ShaderProgram.h"
+#include "graphics/Texture.h"
 
 //DEBUG INCLUDES
 #include "graphics/ShapeMatrices.h"
@@ -15,6 +16,8 @@ GraphicsEngine::GraphicsEngine()
 	Window = nullptr;
 	Renderer = nullptr;
 	VCShader = nullptr;
+	TexShader = nullptr;
+	DefaultEngineTexture = nullptr;
 
 	//debug
 	TriMesh = nullptr;
@@ -86,36 +89,24 @@ bool GraphicsEngine::Initialise()
 		SDL_Quit();
 		return false;
 	}
+	
+	InitEngineShaders();
 
-	//DEBUG - Shaders
-	VCShader = new ShaderProgram();
-
-	//Importing the shaders from their files
-	//vertex shader
-	PPShaderInfo VShader(
-		PPShaderTypes::VERTEX,
-		"Engine/developer/shaders/VColour/VColor.ppvshader"
-	);
-	//fragment shader
-	PPShaderInfo FShader(
-		PPShaderTypes::FRAGMENT,
-		"Engine/developer/shaders/VColour/VColor.ppfshader"
-	);
-
-	//load the shader
-	if (!VCShader->LoadShader({ VShader, FShader })) {
-		delete VCShader;
-		PP_MSG_ERR("Graphics Engine", "Vertex Colour Shader failed");
-		return false;
-	}
+	//set the default texture
+	DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
 
 	//intialise with shapes filled
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	//DEBUG - Initalise meshes
-	TriMesh = CreateShapeMesh(ppsm::Triangle, VCShader);
-	PolyMesh = CreateShapeMesh(ppsm::Polygon, VCShader);
-	ParaMesh = CreateShapeMesh(ppsm::Parallel, VCShader);
+	TriMesh = CreateShapeMesh(ppsm::Triangle, TexShader);
+	PolyMesh = CreateShapeMesh(ppsm::Polygon, TexShader);
+	ParaMesh = CreateShapeMesh(ppsm::Parallel, TexShader);
+
+	//Set the textures
+	TriMesh->BaseColor = DefaultEngineTexture;
+	PolyMesh->BaseColor = GetTexture("Engine/developer/textures/default_texGRN.png");
+	ParaMesh->BaseColor = DefaultEngineTexture;
 
 	//Triangle Mesh Transforms
 	if (TriMesh != nullptr) {
@@ -194,4 +185,77 @@ Mesh* GraphicsEngine::CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader
 	MeshStack.push_back(NewMesh);
 
 	return NewMesh;
+}
+
+Texture* GraphicsEngine::GetTexture(const char* FilePath)
+{
+	//loop through the textures and see if one already exists with the same path
+	for (Texture* LTexture : TextureStack) {
+		//if the filepath is the same then just exit the function and return the texture
+		//strcmp is the better way to compare const char* of strings and returns a 0 if its a match
+		if (strcmp(LTexture->GetFilePath(), FilePath) == 0) {
+			return LTexture;
+		}
+	}
+
+	//if there is no texture found then create a new one
+	Texture* NewTexture = new Texture();
+
+	//import the texture but delete it if it doesn't work
+	if (!NewTexture->ImportTexture(FilePath)) {
+		delete NewTexture;
+		return nullptr;
+	}
+
+	//if all is successful, add the texture to the texture stack to make sure we don't get another
+	TextureStack.push_back(NewTexture);
+
+	return NewTexture;
+}
+
+bool GraphicsEngine::InitEngineShaders()
+{
+	VCShader = new ShaderProgram();
+
+	//Importing the shaders from their files
+	//vertex shader
+	PPShaderInfo VShader(
+		PPShaderTypes::VERTEX,
+		"Engine/developer/shaders/VColour/VColor.ppvshader"
+	);
+	//fragment shader
+	PPShaderInfo FShader(
+		PPShaderTypes::FRAGMENT,
+		"Engine/developer/shaders/VColour/VColor.ppfshader"
+	);
+
+	//load the shader
+	if (!VCShader->LoadShader({ VShader, FShader })) {
+		delete VCShader;
+		PP_MSG_ERR("Graphics Engine", "Vertex Colour Shader failed");
+		return false;
+	}
+
+	TexShader = new ShaderProgram();
+	
+	//import the vertex shader
+	VShader = PPShaderInfo(
+		PPShaderTypes::VERTEX,
+		"Engine/developer/shaders/Texture/Texture.ppvshader"
+	);
+
+	//import the fragment shader
+	FShader = PPShaderInfo(
+		PPShaderTypes::FRAGMENT,
+		"Engine/developer/shaders/Texture/Texture.ppfshader"
+	);
+
+	if (!TexShader->LoadShader({ VShader, FShader })) {
+		delete TexShader;
+		PP_MSG_ERR("Graphics Engine", "Texture Shader Failed");
+
+		return false;
+	}
+
+	return true;
 }

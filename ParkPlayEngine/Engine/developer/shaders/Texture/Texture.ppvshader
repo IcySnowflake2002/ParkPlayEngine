@@ -3,7 +3,7 @@
 
 // getting the attribute pointer at the 0 location (vertex positions for us)
 layout(location = 0) in vec3 InPosition;
-layout(location = 4) in vec2 InTexCoords;
+layout(location = 1) in vec2 InTexCoords;
 
 out vec2 TexCoords;
 

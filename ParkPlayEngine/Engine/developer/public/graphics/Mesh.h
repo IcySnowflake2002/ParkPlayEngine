@@ -6,6 +6,7 @@ struct PPVertex;
 class VertexArrayObject;
 class ShaderProgram;
 struct ShapeMatrices;
+class Texture;
 
 class Mesh {
 public: //functions
@@ -24,7 +25,8 @@ public: //functions
 	PPTransform Transform;
 
 public: //variables
-
+	//store the texture
+	Texture* BaseColor;
 
 private: //functions
 
@@ -35,6 +37,5 @@ private: //variables
 
 	//store the shader
 	ShaderProgram* Shader;
-
 
 };

@@ -6,6 +6,7 @@ struct SDL_Window;
 class Mesh;
 class ShaderProgram;
 class ShapeMatrices;
+class Texture;
 
 class GraphicsEngine {
 
@@ -34,8 +35,11 @@ public: //functions
 	//Create a shape matrix to create a mesh
 	Mesh* CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader);
 
-private: //functions
+	//get texture using filepath or create if isn't loaded
+	Texture* GetTexture(const char* FilePath);
 
+private: //functions
+	bool InitEngineShaders();
 
 public: //variables
 
@@ -44,7 +48,17 @@ private: //variables
 	SDL_GLContext Renderer;
 	SDL_Window* Window;
 
+	//vertex colour shader (DEPRECRATED)
 	ShaderProgram* VCShader;
+
+	//texture colour shader
+	ShaderProgram* TexShader;
+
+	//default Texture that meshes will load
+	Texture* DefaultEngineTexture;
+
+	//hold all of the textures loaded into the game
+	TArray<Texture*> TextureStack;
 
 	//DEBUG VARIABLES
 	//VertexArrayObject* ParallelVAO;

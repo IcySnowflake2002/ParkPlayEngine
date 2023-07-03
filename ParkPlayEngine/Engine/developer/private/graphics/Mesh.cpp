@@ -3,6 +3,7 @@
 #include "graphics/ShaderProgram.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "graphics/ShapeMatrices.h"
+#include "graphics/Texture.h"
 
 Mesh::Mesh(ShaderProgram* Shader) : Shader (Shader)
 {
@@ -22,7 +23,7 @@ bool Mesh::InitaliseVAO(ShapeMatrices Shape)
 	TArray<PPVertex> ShapeData = PPVertex::ConvertShapeMatrix(Shape);
 
 	//create the vao using the shape
-	VAO = new VertexArrayObject(ShapeData, Shape.Indices, Shape.RowSize);
+	VAO = new VertexArrayObject(ShapeData, Shape.Indices);
 
 	//if it was successful return true
 	return VAO != nullptr;
@@ -32,6 +33,12 @@ void Mesh::Draw()
 {
 	//set the shader for this mesh as the active shader
 	Shader->Run();
+
+	//set the texture in the shader
+	if (BaseColor != nullptr) {
+		BaseColor->Bind(0);
+		Shader->SetUniformInt("Texture", 0);
+	}
 
 	glm::mat4 ShaderTransform = glm::mat4(1.0f);
 	

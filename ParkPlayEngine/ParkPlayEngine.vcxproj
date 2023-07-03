@@ -138,6 +138,7 @@
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Mesh.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\ShaderProgram.cpp" />
+    <ClCompile Include="Engine\developer\private\graphics\Texture.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\VertexArrayObject.cpp" />
     <ClCompile Include="Engine\Source.cpp" />
   </ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="Engine\developer\public\graphics\Mesh.h" />
     <ClInclude Include="Engine\developer\public\graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\developer\public\graphics\ShapeMatrices.h" />
+    <ClInclude Include="Engine\developer\public\graphics\Texture.h" />
     <ClInclude Include="Engine\developer\public\graphics\VertexArrayObject.h" />
     <ClInclude Include="Engine\developer\public\PPTransform.h" />
   </ItemGroup>

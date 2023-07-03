@@ -93,6 +93,15 @@ void ShaderProgram::SetUniformTransform(glm::mat4 Transform)
 	glUniformMatrix4fv(UniformLoc, 1, GL_FALSE, value_ptr(Transform));
 }
 
+void ShaderProgram::SetUniformInt(const char* ShaderVariableName, int Value)
+{
+	//find the uniform variable by name
+	int UniformLoc = glGetUniformLocation(ProgramID, ShaderVariableName);
+
+	//we change the value
+	glUniform1i(UniformLoc, Value);
+}
+
 PPUint ShaderProgram::CreateShader(PPShaderTypes ShaderType, const PPString& FilePath)
 {
 	PPString ShaderCode = ConvertShaderFile(FilePath);

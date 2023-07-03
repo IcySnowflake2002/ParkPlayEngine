@@ -35,7 +35,12 @@ public: //functions
 	//returns the OpenGL ID for the shader
 	PPUint GetID() const { return ProgramID; }
 
+	//this will change the "Transform" shader variable
 	void SetUniformTransform(glm::mat4 Transform);
+
+	//this will allow us to change the integer values in shaders
+	//sampler2D takes an integer
+	void SetUniformInt(const char* ShaderVariableName, int Value);
 
 public: //variables
 

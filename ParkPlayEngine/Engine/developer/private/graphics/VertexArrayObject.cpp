@@ -3,7 +3,9 @@
 #include "CoreMinimal.h"
 #include "GLEW/glew.h"
 
-VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData, const PPUint RowSize)
+#define VERTEX_SIZE 5
+
+VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData)
 	: VertexData(vertexData), IndexData(indexData)
 {
 	VaoID = VboID = EabID = 0;
@@ -27,10 +29,10 @@ VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const T
 	// save the data in the vertex matrix to a readable format for shaders
 	//point to the positions in the vertex matix
 	//find the positions in the vertex
-	SetAttributePointer(0, 3, GL_FLOAT, RowSize * sizeof(float), 0);
+	SetAttributePointer(0, 3, GL_FLOAT, VERTEX_SIZE * sizeof(float), 0);
 
-	//store the colour of the shader
-	SetAttributePointer(4, 3, GL_FLOAT, RowSize * sizeof(float), (void*) (3 * sizeof(float)));
+	//store the texture coordinates for the shader
+	SetAttributePointer(1, 2, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*) (3 * sizeof(float)));
 
 	//Once everything is set clear the VAO from the VAO slot
 	Unbind();
@@ -110,15 +112,20 @@ TArray<PPVertex> PPVertex::ConvertShapeMatrix(ShapeMatrices Shape)
 	TArray<PPVertex> VertexArray;
 
 	// loop every 3 positions since we know a vertex is made up of 3 numbers (x, y, z)
-	for (PPUint i = 0; i < Shape.Data.size(); i += Shape.RowSize) {
+	for (PPUint i = 0; i < Shape.Positions.size(); i++) {
 		// assign the number based on the index + its relevant value
 		//this will get position
-		glm::vec3 vPosition = glm::vec3(Shape.Data[i], Shape.Data[i + 1], Shape.Data[i + 2]);
+		glm::vec3 vPosition = glm::vec3(
+			Shape.Positions[i].x, 
+			Shape.Positions[i].y, 
+			Shape.Positions[i].z);
 		//this will get colour
-		glm::vec3 vColour = glm::vec3(Shape.Data[i + 3], Shape.Data[i + 4], Shape.Data[i + 5]);
+		glm::vec2 vTexCoords = glm::vec2(
+			Shape.TexCoords[i].x,
+			Shape.TexCoords[i].y);
 
 		// add the position into the vertex array
-		VertexArray.push_back(PPVertex(vPosition, vColour));
+		VertexArray.push_back(PPVertex(vPosition, vTexCoords));
 	}
 
 	return VertexArray;

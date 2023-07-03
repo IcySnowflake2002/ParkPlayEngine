@@ -6,10 +6,10 @@ struct ShapeMatrices;
 
 struct PPVertex {
 
-	PPVertex(glm::vec3 inposition, glm::vec3 incolour) : position(inposition), colour (incolour) {}
+	PPVertex(glm::vec3 inposition, glm::vec2 intexcoords) : position(inposition), texcoords (intexcoords) {}
 
 	glm::vec3 position; // x,y,z position in world space of the vertex
-	glm::vec3 colour;
+	glm::vec2 texcoords; // x,y or (u,v) position on the texture map for the vertex
 
 	static TArray<PPVertex> ConvertShapeMatrix(ShapeMatrices Shape);
 
@@ -17,7 +17,7 @@ struct PPVertex {
 
 class VertexArrayObject {
 public: //functions
-	VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData, const PPUint RowSize = 6);
+	VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData);
 	~VertexArrayObject();
 
 	// save the vertex data into a format that is readable by OpenGL shaders, that format is called an attribute pointer
