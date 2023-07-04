@@ -84,10 +84,10 @@ void ShaderProgram::Run() const
 	}
 }
 
-void ShaderProgram::SetUniformTransform(glm::mat4 Transform)
+void ShaderProgram::SetUniformTransform(const char* TransformName, glm::mat4 Transform)
 {
 	// find the uniform variable in the shader by name
-	int UniformLoc = glGetUniformLocation(ProgramID, "Transform");
+	int UniformLoc = glGetUniformLocation(ProgramID, TransformName);
 
 	//we change the value
 	glUniformMatrix4fv(UniformLoc, 1, GL_FALSE, value_ptr(Transform));

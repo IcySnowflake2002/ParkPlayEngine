@@ -5,6 +5,8 @@
 #include "graphics/Mesh.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/Texture.h"
+#include "graphics/Camera.h"
+#include "GLM/gtc/matrix_transform.hpp"
 
 //DEBUG INCLUDES
 #include "graphics/ShapeMatrices.h"
@@ -18,11 +20,13 @@ GraphicsEngine::GraphicsEngine()
 	VCShader = nullptr;
 	TexShader = nullptr;
 	DefaultEngineTexture = nullptr;
+	CurrentCamera = nullptr;
 
 	//debug
 	TriMesh = nullptr;
 	PolyMesh = nullptr;
 	ParaMesh = nullptr;
+	CubeMesh = nullptr;
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -57,8 +61,8 @@ bool GraphicsEngine::Initialise()
 		"ParkPlay Engine | An OpenGL Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		800,
-		800,
+		1280,
+		720,
 		WindowFlags);
 
 	//if the window fails to create, fail the app and print error message to console
@@ -90,43 +94,21 @@ bool GraphicsEngine::Initialise()
 		return false;
 	}
 	
+	// Activate the ability to read depth in openGL
+	glEnable(GL_DEPTH_TEST);
+
+	//Initalise the engine shaders
 	InitEngineShaders();
+
+	CurrentCamera = new Camera(0.0f, 0.0f, -2.0f);
 
 	//set the default texture
 	DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
 
 	//intialise with shapes filled
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
 
-	//DEBUG - Initalise meshes
-	TriMesh = CreateShapeMesh(ppsm::Triangle, TexShader);
-	PolyMesh = CreateShapeMesh(ppsm::Polygon, TexShader);
-	ParaMesh = CreateShapeMesh(ppsm::Parallel, TexShader);
-
-	//Set the textures
-	TriMesh->BaseColor = DefaultEngineTexture;
-	PolyMesh->BaseColor = GetTexture("Engine/developer/textures/default_texGRN.png");
-	ParaMesh->BaseColor = DefaultEngineTexture;
-
-	//Triangle Mesh Transforms
-	if (TriMesh != nullptr) {
-		TriMesh->Transform.Location.x = 0.5f;
-		TriMesh->Transform.Location.y = 0.5f;
-		TriMesh->Transform.Scale = glm::vec3(0.8f);
-	}
-
-	//Polygon Mesh Transforms
-	if (PolyMesh != nullptr) {
-		PolyMesh->Transform.Location.x = -0.5f;
-		PolyMesh->Transform.Location.y = 0.4f;
-		PolyMesh->Transform.Scale = glm::vec3(0.5f);
-		PolyMesh->Transform.Rotation.z = 45.0f;
-	}
-
-	//Parallelogram Mesh Transforms
-	if (ParaMesh != nullptr) {
-		ParaMesh->Transform.Location.y = -0.4f;
-	}
 
 	return true;
 }
@@ -147,28 +129,40 @@ void GraphicsEngine::ClearGraphics()
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 
 	//clear the screen
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
-	
-	//Make the Parallelogram rotate forever
-	if (ParaMesh != nullptr) {
-		ParaMesh->Transform.Rotation.z += 0.01f;
+	if (CubeMesh != nullptr) {
+		CubeMesh->Transform.Rotation.x += 0.01f;
+		CubeMesh->Transform.Rotation.y += 0.01f;
+		CubeMesh->Transform.Rotation.z += 0.01f;
 	}
+
+	// LEGACY - Rotation of Meshes
+	//if (ParaMesh != nullptr) {
+		//ParaMesh->Transform.Rotation.z += 0.01f;
+	//}
 
 	// loop through all of the mesh stack elements
 	for (Mesh* LMesh : MeshStack) {
 		LMesh->Draw();
 	}
+
+	ApplyScreenTransforms();
 }
 
 void GraphicsEngine::PresentGraphics()
 {
 	//present the opengl renderer to the window
 	SDL_GL_SwapWindow(Window);
+}
+
+void GraphicsEngine::Update()
+{
+	CurrentCamera->Update();
 }
 
 Mesh* GraphicsEngine::CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader)
@@ -185,6 +179,11 @@ Mesh* GraphicsEngine::CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader
 	MeshStack.push_back(NewMesh);
 
 	return NewMesh;
+}
+
+Mesh* GraphicsEngine::Create3DShape(ShapeMatrices Shape)
+{
+	return CreateShapeMesh(Shape, TexShader);
 }
 
 Texture* GraphicsEngine::GetTexture(const char* FilePath)
@@ -258,4 +257,35 @@ bool GraphicsEngine::InitEngineShaders()
 	}
 
 	return true;
+}
+
+void GraphicsEngine::ApplyScreenTransforms()
+{
+	//hold the width and height of the window
+	int WWidth, WHeight = 0;
+
+	//Get the window and change our width and height variables to the screen size
+	SDL_GetWindowSize(GetWindow(), &WWidth, &WHeight);
+
+	//covnert the screen size into an aspect ratio
+	float AspectRatio = static_cast<float>(WWidth) / static_cast<float>(std::max(WHeight, 1));
+
+	//create the view and projection transforms
+	glm::mat4 view(1.0f); // view = glm::mat4(1.0f)
+	glm::mat4 projection(1.0f);
+
+	//create the view coordinates based on the camera location
+	view = glm::translate(view, CurrentCamera->Transform.Location);
+
+	//create the world coordinates from the screen
+	//otherwise known as perspective view
+	projection = glm::perspective(
+		glm::radians(CurrentCamera->FOV), 
+		AspectRatio, 
+		CurrentCamera->NearClip, 
+		CurrentCamera->FarClip);
+
+	// add the coordinates to the texture shader
+	TexShader->SetUniformTransform("View", view);
+	TexShader->SetUniformTransform("Projection", projection);
 }

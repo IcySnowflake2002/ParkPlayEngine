@@ -7,12 +7,13 @@ layout(location = 1) in vec2 InTexCoords;
 
 out vec2 TexCoords;
 
-//converting into mat4(1.0f, 1.0f, 1.0f, 1.0f)
-//if you want to write different values in each of the four values, you will need to type them all individually.
-uniform mat4 Transform = mat4(1.0f);
+uniform mat4 Model = mat4(1.0f); //The location of the 3D object
+uniform mat4 View = mat4(1.0f); //the location of the camera
+uniform mat4 Projection = mat4(1.0f); //the world space coordinates
 
 void main() {
-	gl_Position = Transform * vec4(InPosition, 1.0f);
+	//Create the MVP coordinates system
+	gl_Position = Projection * View * Model * vec4(InPosition, 1.0f);
 
 	TexCoords = InTexCoords;
 }

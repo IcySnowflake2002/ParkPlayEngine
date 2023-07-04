@@ -1,6 +1,11 @@
 #pragma once
 
 class GraphicsEngine;
+class Texture;
+class Input;
+
+//DEBUG
+class Mesh;
 
 class Game {
 
@@ -17,6 +22,18 @@ public: //functions
 	//Close the whole app
 	void CloseGame();
 
+	// Get the default Texture for objects
+	Texture* GetDefaultTexture() const;
+
+	//Super accurate DeltaTime
+	double GetDeltaTime() const { return DeltaTime; }
+
+	//Less Accurate DeltaTime
+	float GetDeltaTimeF() const { return static_cast<float>(DeltaTime); }
+
+	//Get input for the game
+	Input* GetGameInput() const { return GameInput; }
+
 public: //variables
 
 
@@ -29,6 +46,8 @@ private: //functions
 		//if they fail, close the app
 	bool Initialise();
 
+	//runs at the start of play (after initialisation)
+	void BeginPlay();
 
 	//listen and detect for input
 	void ProcessInput();
@@ -44,10 +63,19 @@ private: //functions
 
 private: //variables
 
-	//Check if game is over
+	//if false game runs, if true game closes
 	bool bIsGameOver;
 
 	//hold the graphics engine
 	GraphicsEngine* Graphics;
 
+	//the time between each frame
+	double DeltaTime;
+
+	//holds the input logic for the game (using SDL2)
+	Input* GameInput;
+
+	//DEBUG : Meshes
+	Mesh* Cube1;
+	Mesh* Cube2;
 };

@@ -4,17 +4,22 @@
 #include "GLM/gtc/matrix_transform.hpp"
 #include "graphics/ShapeMatrices.h"
 #include "graphics/Texture.h"
+#include "Game.h"
 
 Mesh::Mesh(ShaderProgram* Shader) : Shader (Shader)
 {
 	VAO = nullptr;
+	BaseColor = nullptr;
 }
 
 Mesh::~Mesh()
 {
-	if (VAO != nullptr) {
+	if (VAO != nullptr) 
 		delete VAO;
-	}
+
+	// if statements don't need braces if the logic is only on one line
+	if (BaseColor != nullptr) 
+		BaseColor = nullptr;
 }
 
 bool Mesh::InitaliseVAO(ShapeMatrices Shape)
@@ -24,6 +29,10 @@ bool Mesh::InitaliseVAO(ShapeMatrices Shape)
 
 	//create the vao using the shape
 	VAO = new VertexArrayObject(ShapeData, Shape.Indices);
+
+	//assign the default engine texture if the VAO was successful
+	if (VAO != nullptr)
+		BaseColor = Game::GetGameInstance()->GetDefaultTexture();
 
 	//if it was successful return true
 	return VAO != nullptr;
@@ -57,7 +66,7 @@ void Mesh::Draw()
 	ShaderTransform = glm::scale(ShaderTransform, glm::vec3(Transform.Scale));
 
 	// update the shader with the new transforms
-	Shader->SetUniformTransform(ShaderTransform);
+	Shader->SetUniformTransform("Model", ShaderTransform);
 
 	VAO->Draw();
 }

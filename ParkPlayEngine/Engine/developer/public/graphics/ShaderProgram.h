@@ -36,7 +36,7 @@ public: //functions
 	PPUint GetID() const { return ProgramID; }
 
 	//this will change the "Transform" shader variable
-	void SetUniformTransform(glm::mat4 Transform);
+	void SetUniformTransform(const char* TransformName, glm::mat4 Transform);
 
 	//this will allow us to change the integer values in shaders
 	//sampler2D takes an integer

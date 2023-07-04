@@ -1,5 +1,4 @@
-﻿  Mesh.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+﻿  Camera.cpp
   ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
