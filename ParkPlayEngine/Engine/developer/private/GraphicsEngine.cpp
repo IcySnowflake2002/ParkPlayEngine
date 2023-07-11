@@ -100,7 +100,7 @@ bool GraphicsEngine::Initialise()
 	//Initalise the engine shaders
 	InitEngineShaders();
 
-	CurrentCamera = new Camera(0.0f, 0.0f, -2.0f);
+	CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
 
 	//set the default texture
 	DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
@@ -275,7 +275,15 @@ void GraphicsEngine::ApplyScreenTransforms()
 	glm::mat4 projection(1.0f);
 
 	//create the view coordinates based on the camera location
-	view = glm::translate(view, CurrentCamera->Transform.Location);
+	//LookAt Params
+	// @param 1 - Camera Location
+	// @param 2 - Camera Focus (where the camera should look)
+	// @param 3 - Cameras 
+	view = glm::lookAt(
+		CurrentCamera->Transform.Location,
+		CurrentCamera->Transform.Location + CurrentCamera->Transform.GetForward(),
+		CurrentCamera->Transform.GetUp()
+	);
 
 	//create the world coordinates from the screen
 	//otherwise known as perspective view

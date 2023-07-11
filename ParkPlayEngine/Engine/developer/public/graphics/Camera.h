@@ -13,6 +13,12 @@ public: //functions
 	//Game logic for the camera
 	void Update();
 
+	// move the camera in a direction based on camera speed and scale
+	void AddMovementInput(glm::vec3 Direction, float Scale = 1.0f);
+
+	// rotate the camera based on rotation 
+	void AddRotation(glm::vec3 Rotation);
+
 public: //variables
 	float FOV; //field of view
 
@@ -27,6 +33,9 @@ public: //variables
 	
 	//Speed the camera moves at
 	float Speed;
+
+	//The speed the camera rotates at
+	float LookSensitivity;
 
 private: //functions
 

@@ -94,8 +94,21 @@ void Game::BeginPlay()
 	Cube1->BaseColor = Graphics->GetTexture("Engine/developer/textures/default_texGRN.png");
 
 	//move the cubes away from each other
-	Cube1->Transform.Location.x += 1.0f;
-	Cube2->Transform.Location.x -= 1.0f;
+	Cube1->Transform.Location += glm::vec3(2.0f, 0.0f, 1.0f);
+	Cube2->Transform.Location += glm::vec3(2.0f, -1.0f, -1.0f);
+
+	Mesh* Cube3 = Graphics->Create3DShape(ppsm3D::Cube);
+	Mesh* Cube4 = Graphics->Create3DShape(ppsm3D::Cube);
+
+	Cube3->BaseColor = Graphics->GetTexture("Engine/developer/textures/cobble.png");
+	Cube4->BaseColor = Graphics->GetTexture("Engine/developer/textures/carpet.png");
+
+	Cube3->Transform.Location += glm::vec3(-4.0f, -1.0f, 1.0f);
+	Cube3->Transform.Scale = glm::vec3(0.5f);
+
+	Cube4->Transform.Location += glm::vec3(-6.0f, 1.0f, -1.0f);
+	Cube4->Transform.Rotation = glm::vec3(0.0f, 0.0f, 25.0f);
+	Cube4->Transform.Scale = glm::vec3(2.0f);
 }
 
 void Game::ProcessInput()
@@ -144,6 +157,13 @@ void Game::Update()
 			Cube2->Transform.Scale -= GetDeltaTimeF() * 1.0f;
 		else
 			Cube2->Transform.Scale += GetDeltaTimeF() * 1.0f;
+	}
+
+	if (GameInput->isMouseButtonDown(SDL_BUTTON_RIGHT)) {
+		GameInput->SetCursorVisible(false);
+	}
+	else {
+		GameInput->SetCursorVisible(true);
 	}
 }
 
