@@ -6,9 +6,14 @@ struct ShapeMatrices;
 
 struct PPVertex {
 
-	PPVertex(glm::vec3 inposition, glm::vec2 intexcoords) : position(inposition), texcoords (intexcoords) {}
+	PPVertex() :
+		position(glm::vec3(0.0f)), texcoords(glm::vec2(0.0f)), normal(glm::vec3(0.0f)) {}
+
+	PPVertex(glm::vec3 inposition, glm::vec2 intexcoords) 
+		: position(inposition), texcoords (intexcoords), normal(glm::vec3(0.0f)) {}
 
 	glm::vec3 position; // x,y,z position in world space of the vertex
+	glm::vec3 normal;
 	glm::vec2 texcoords; // x,y or (u,v) position on the texture map for the vertex
 
 	static TArray<PPVertex> ConvertShapeMatrix(ShapeMatrices Shape);

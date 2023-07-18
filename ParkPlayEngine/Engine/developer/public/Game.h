@@ -3,9 +3,8 @@
 class GraphicsEngine;
 class Texture;
 class Input;
-
-//DEBUG
-class Mesh;
+class ShaderProgram;
+class Model;
 
 class Game {
 
@@ -24,6 +23,9 @@ public: //functions
 
 	// Get the default Texture for objects
 	Texture* GetDefaultTexture() const;
+
+	//get the default shader for objects
+	ShaderProgram* GetDefaultShader() const;
 
 	//Super accurate DeltaTime
 	double GetDeltaTime() const { return DeltaTime; }
@@ -75,7 +77,9 @@ private: //variables
 	//holds the input logic for the game (using SDL2)
 	Input* GameInput;
 
-	//DEBUG : Meshes
-	Mesh* Cube1;
-	Mesh* Cube2;
+	//Models
+	Model* Cube1;
+	Model* Cube2;
+	Model* Wall;
+	Model* Ring;
 };

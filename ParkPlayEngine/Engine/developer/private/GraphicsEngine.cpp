@@ -2,16 +2,12 @@
 #include "SDL2/SDL.h"
 #include "GLEW/glew.h"
 #include "CoreMinimal.h"
-#include "graphics/Mesh.h"
+#include "graphics/Model.h"
 #include "graphics/ShaderProgram.h"
 #include "graphics/Texture.h"
 #include "graphics/Camera.h"
 #include "GLM/gtc/matrix_transform.hpp"
-
-//DEBUG INCLUDES
 #include "graphics/ShapeMatrices.h"
-#include "PPTransform.h"
-
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -21,12 +17,6 @@ GraphicsEngine::GraphicsEngine()
 	TexShader = nullptr;
 	DefaultEngineTexture = nullptr;
 	CurrentCamera = nullptr;
-
-	//debug
-	TriMesh = nullptr;
-	PolyMesh = nullptr;
-	ParaMesh = nullptr;
-	CubeMesh = nullptr;
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -60,57 +50,57 @@ bool GraphicsEngine::Initialise()
 	Window = SDL_CreateWindow(
 		"ParkPlay Engine | An OpenGL Engine",
 		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		1280,
-		720,
-		WindowFlags);
+			SDL_WINDOWPOS_CENTERED,
+			1280,
+			720,
+			WindowFlags);
 
-	//if the window fails to create, fail the app and print error message to console
-	if (Window == nullptr) {
-		PP_MSG_ERR("Graphics Engine", "Window failed to initialise: " << SDL_GetError());
-		SDL_Quit();
-		return false;
-	}
+			//if the window fails to create, fail the app and print error message to console
+			if (Window == nullptr) {
+				PP_MSG_ERR("Graphics Engine", "Window failed to initialise: " << SDL_GetError());
+				SDL_Quit();
+				return false;
+			}
 
-	//create the opengl Renderer
-	Renderer = SDL_GL_CreateContext(Window);
+			//create the opengl Renderer
+			Renderer = SDL_GL_CreateContext(Window);
 
-	//if the renderer fails to create, fail the app and print error message to console
-	if (Renderer == nullptr) {
-		PP_MSG_ERR("Graphics Engine", "SDL failed to create opengl context: " << SDL_GetError());
-		SDL_Quit();
-		return false;
-	}
+			//if the renderer fails to create, fail the app and print error message to console
+			if (Renderer == nullptr) {
+				PP_MSG_ERR("Graphics Engine", "SDL failed to create opengl context: " << SDL_GetError());
+				SDL_Quit();
+				return false;
+			}
 
-	//activates the experimental libraries in GLEW (which seems to be all of them?)
-	glewExperimental = GL_TRUE;
+			//activates the experimental libraries in GLEW (which seems to be all of them?)
+			glewExperimental = GL_TRUE;
 
-	//initialise glew and fail if it doesn't succeed
-	if (glewInit() != GLEW_OK) {
-		PP_MSG_ERR("Graphics Engine", "Glew failed to initialise: " << glewGetErrorString(glewInit()));
-		SDL_GL_DeleteContext(Renderer);
-		SDL_DestroyWindow(Window);
-		SDL_Quit();
-		return false;
-	}
-	
-	// Activate the ability to read depth in openGL
-	glEnable(GL_DEPTH_TEST);
+			//initialise glew and fail if it doesn't succeed
+			if (glewInit() != GLEW_OK) {
+				PP_MSG_ERR("Graphics Engine", "Glew failed to initialise: " << glewGetErrorString(glewInit()));
+				SDL_GL_DeleteContext(Renderer);
+				SDL_DestroyWindow(Window);
+				SDL_Quit();
+				return false;
+			}
 
-	//Initalise the engine shaders
-	InitEngineShaders();
+			// Activate the ability to read depth in openGL
+			glEnable(GL_DEPTH_TEST);
 
-	CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
+			//Initalise the engine shaders
+			InitEngineShaders();
 
-	//set the default texture
-	DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
+			CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
 
-	//intialise with shapes filled
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
+			//set the default texture
+			DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
+
+			//intialise with shapes filled
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
-	return true;
+
+			return true;
 }
 
 SDL_GLContext GraphicsEngine::GetRenderer()
@@ -135,20 +125,10 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
-	if (CubeMesh != nullptr) {
-		CubeMesh->Transform.Rotation.x += 0.01f;
-		CubeMesh->Transform.Rotation.y += 0.01f;
-		CubeMesh->Transform.Rotation.z += 0.01f;
-	}
-
-	// LEGACY - Rotation of Meshes
-	//if (ParaMesh != nullptr) {
-		//ParaMesh->Transform.Rotation.z += 0.01f;
-	//}
 
 	// loop through all of the mesh stack elements
-	for (Mesh* LMesh : MeshStack) {
-		LMesh->Draw();
+	for (Model* LModel : ModelStack) {
+		LModel->Draw();
 	}
 
 	ApplyScreenTransforms();
@@ -165,25 +145,40 @@ void GraphicsEngine::Update()
 	CurrentCamera->Update();
 }
 
-Mesh* GraphicsEngine::CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader)
+Model* GraphicsEngine::Create3DShape(ShapeMatrices Shape)
 {
-	Mesh* NewMesh = new Mesh(Shader);
+	//create a model object class
+	Model* NewModel = new Model();
 
-	if (!NewMesh->InitaliseVAO(Shape)) {
-		PP_MSG_ERR("GE", "Mesh VAO could not be created.");
-
+	//create a simple mesh shape from the ShapeMatrices
+	if (!NewModel->CreateSimpleShape(Shape)) {
+		PP_MSG_ERR("Graphics Engine", "3D Shape could not be created");
 		return nullptr;
 	}
 
-	//add our new mesh into the mesh stack
-	MeshStack.push_back(NewMesh);
+	//add a model to the model stack
+	ModelStack.push_back(NewModel);
 
-	return NewMesh;
+	//return the model for caching
+	return NewModel;
 }
 
-Mesh* GraphicsEngine::Create3DShape(ShapeMatrices Shape)
+Model* GraphicsEngine::Import3DModel(PPString& FilePath)
 {
-	return CreateShapeMesh(Shape, TexShader);
+	//create a model object class
+	Model* NewModel = new Model();
+
+	//create a simple mesh shape from the ShapeMatrices
+	if (!NewModel->ImportFromFile(FilePath)) {
+		PP_MSG_ERR("Graphics Engine", "3D Model could not be created");
+		return nullptr;
+	}
+
+	//add a model to the model stack
+	ModelStack.push_back(NewModel);
+
+	//return the model for caching
+	return NewModel;
 }
 
 Texture* GraphicsEngine::GetTexture(const char* FilePath)

@@ -38,8 +38,26 @@ bool Mesh::InitaliseVAO(ShapeMatrices Shape)
 	return VAO != nullptr;
 }
 
-void Mesh::Draw()
+bool Mesh::InitaliseVAO(TArray<PPVertex> Vertices, TArray<PPUint> Indices)
 {
+	//create the vao using the shape
+	VAO = new VertexArrayObject(Vertices, Indices);
+
+	//assign the default engine texture if the VAO was successful
+	if (VAO != nullptr)
+		BaseColor = Game::GetGameInstance()->GetDefaultTexture();
+
+	//if it was successful return true
+	return VAO != nullptr;
+
+	return false;
+}
+
+void Mesh::Draw(PPTransform Transform)
+{
+	//Ensure the transforms are updated every frame
+	this->Transform = Transform;
+
 	//set the shader for this mesh as the active shader
 	Shader->Run();
 

@@ -13,16 +13,16 @@ public: //functions
 	Mesh(ShaderProgram* Shader);
 	~Mesh();
 
-	//turn the mesh into a VAO mesh
+	//turn the shape into a VAO mesh
 	bool InitaliseVAO(ShapeMatrices Shape);
+
+	//turn the data into a VAO mesh 
+	bool InitaliseVAO(TArray<PPVertex> Vertices, TArray<PPUint> Indices);
 
 	// Draw all the required draws for the mesh
 	//shader
 	//vao
-	void Draw();
-
-	//store and change the transformations of the mesh
-	PPTransform Transform;
+	void Draw(PPTransform Transform);
 
 public: //variables
 	//store the texture
@@ -38,4 +38,6 @@ private: //variables
 	//store the shader
 	ShaderProgram* Shader;
 
+	//store and change the transformations of the mesh
+	PPTransform Transform;
 };

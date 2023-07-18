@@ -24,5 +24,6 @@ using TArray = std::vector<T>;
 // at compile time replace all instances of PPUint with unsigned int
 typedef unsigned int PPUint;
 
+//Simplified string
 typedef std::string PPString;
 

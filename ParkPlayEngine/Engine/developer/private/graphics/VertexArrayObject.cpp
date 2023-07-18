@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GLEW/glew.h"
 
-#define VERTEX_SIZE 5
+#define VERTEX_SIZE 8
 
 VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const TArray<PPUint>& indexData)
 	: VertexData(vertexData), IndexData(indexData)
@@ -32,7 +32,7 @@ VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const T
 	SetAttributePointer(0, 3, GL_FLOAT, VERTEX_SIZE * sizeof(float), 0);
 
 	//store the texture coordinates for the shader
-	SetAttributePointer(1, 2, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*) (3 * sizeof(float)));
+	SetAttributePointer(1, 2, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*) (6 * sizeof(float)));
 
 	//Once everything is set clear the VAO from the VAO slot
 	Unbind();

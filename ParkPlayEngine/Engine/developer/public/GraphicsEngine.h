@@ -3,7 +3,7 @@
 
 typedef void* SDL_GLContext;
 struct SDL_Window;
-class Mesh;
+class Model;
 class ShaderProgram;
 class ShapeMatrices;
 class Texture;
@@ -36,17 +36,20 @@ public: //functions
 	//any logic updates for the Graphics Engine
 	void Update();
 
-	//Create a shape matrix to create a mesh
-	Mesh* CreateShapeMesh(ShapeMatrices Shape, ShaderProgram* Shader);
-
 	//Create a 3D shape using the texture shader
-	Mesh* Create3DShape(ShapeMatrices Shape);
+	Model* Create3DShape(ShapeMatrices Shape);
+
+	//create a 3D model class using a filepath
+	Model* Import3DModel(PPString& FilePath);
 
 	//get texture using filepath or create if isn't loaded
 	Texture* GetTexture(const char* FilePath);
 
 	// Get the default engine texture
 	Texture* GetDefaultTexture() const { return DefaultEngineTexture; }
+
+	//get the default shader to apply to all models
+	ShaderProgram* GetDefaultShader() const { return TexShader;  }
 
 private: //functions
 	bool InitEngineShaders();
@@ -76,15 +79,7 @@ private: //variables
 	//Current Rendering camera for the engine
 	Camera* CurrentCamera;
 
-	//DEBUG VARIABLES
-	//VertexArrayObject* ParallelVAO;
-	TArray<Mesh*> MeshStack;
+	//store all models in the game
+	TArray<Model*> ModelStack;
 
-	//2D Meshes
-	Mesh* PolyMesh;
-	Mesh* TriMesh;
-	Mesh* ParaMesh;
-
-	//3D Meshes
-	Mesh* CubeMesh;
 };
