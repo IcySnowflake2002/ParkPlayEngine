@@ -137,6 +137,7 @@
     <ClCompile Include="Engine\developer\private\Game.cpp" />
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Camera.cpp" />
+    <ClCompile Include="Engine\developer\private\graphics\Material.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Mesh.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Model.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\ShaderProgram.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Engine\developer\public\Game.h" />
     <ClInclude Include="Engine\developer\public\GraphicsEngine.h" />
     <ClInclude Include="Engine\developer\public\graphics\Camera.h" />
+    <ClInclude Include="Engine\developer\public\graphics\Material.h" />
     <ClInclude Include="Engine\developer\public\graphics\Mesh.h" />
     <ClInclude Include="Engine\developer\public\graphics\Model.h" />
     <ClInclude Include="Engine\developer\public\graphics\ShaderProgram.h" />

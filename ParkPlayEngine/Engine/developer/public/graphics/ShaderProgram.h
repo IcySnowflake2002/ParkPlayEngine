@@ -42,6 +42,15 @@ public: //functions
 	//sampler2D takes an integer
 	void SetUniformInt(const char* ShaderVariableName, int Value);
 
+	//set a int in an array in the shader
+	void SetUniformArrayInt(const char* ArrayName, PPUint Index, int Value);
+
+	//set a float in the shader
+	void SetUniformFloat(const char* ShaderVariableName, float Value);
+
+	//set a float in an array in the shader
+	void SetUniformArrayFloat(const char* ArrayName, PPUint Index, float Value);
+
 public: //variables
 
 

@@ -95,6 +95,6 @@ bool Texture::ImportTexture(const char* FilePath)
 void Texture::Bind(PPUint TextureSlot)
 {
 	//creates a texture unit for this texture to bind to
-	glActiveTexture(TextureSlot);
+	glActiveTexture(GL_TEXTURE0 + TextureSlot);
 	glBindTexture(GL_TEXTURE_2D, GetID());
 }

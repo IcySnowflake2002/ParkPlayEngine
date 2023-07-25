@@ -102,6 +102,33 @@ void ShaderProgram::SetUniformInt(const char* ShaderVariableName, int Value)
 	glUniform1i(UniformLoc, Value);
 }
 
+void ShaderProgram::SetUniformArrayInt(const char* ArrayName, PPUint Index, int Value)
+{
+	//find the uniform variable in the shader by name
+	int UniformLoc = glGetUniformLocation(ProgramID, ArrayName);
+
+	//update the float value in the shader
+	glUniform1i(UniformLoc + Index, Value);
+}
+
+void ShaderProgram::SetUniformFloat(const char* ShaderVariableName, float Value)
+{
+	//find the uniform variable in the shader by name
+	int UniformLoc = glGetUniformLocation(ProgramID, ShaderVariableName);
+
+	//update the float value in the shader
+	glUniform1f(UniformLoc, Value);
+}
+
+void ShaderProgram::SetUniformArrayFloat(const char* ArrayName, PPUint Index, float Value)
+{
+	//find the uniform variable in the shader by name
+	int UniformLoc = glGetUniformLocation(ProgramID, ArrayName);
+
+	//update the float value in the shader
+	glUniform1f(UniformLoc + Index, Value);
+}
+
 PPUint ShaderProgram::CreateShader(PPShaderTypes ShaderType, const PPString& FilePath)
 {
 	PPString ShaderCode = ConvertShaderFile(FilePath);

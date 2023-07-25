@@ -4,13 +4,11 @@
 
 struct PPVertex;
 class VertexArrayObject;
-class ShaderProgram;
 struct ShapeMatrices;
-class Texture;
 
 class Mesh {
 public: //functions
-	Mesh(ShaderProgram* Shader);
+	Mesh();
 	~Mesh();
 
 	//turn the shape into a VAO mesh
@@ -22,21 +20,27 @@ public: //functions
 	// Draw all the required draws for the mesh
 	//shader
 	//vao
-	void Draw(PPTransform Transform);
+	void Draw();
+
+	//set the material index for use in the model class
+	void SetMaterialIndex(PPUint Index) { MaterialIndex = Index; }
+
+	//gets the material index
+	PPUint GetMaterialIndex() const { return MaterialIndex; }
 
 public: //variables
-	//store the texture
-	Texture* BaseColor;
+
 
 private: //functions
 
 
 private: //variables
+
+	//hold the index for the material in the model
+	PPUint MaterialIndex;
+
 	//store the VAO
 	VertexArrayObject* VAO;
-
-	//store the shader
-	ShaderProgram* Shader;
 
 	//store and change the transformations of the mesh
 	PPTransform Transform;

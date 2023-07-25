@@ -2,7 +2,7 @@
 #include "graphics/Mesh.h"
 #include "graphics/ShapeMatrices.h"
 #include "graphics/ShaderProgram.h"
-#include "graphics/Texture.h"
+#include "graphics/Material.h"
 #include "Game.h"
 #include "graphics/VertexArrayObject.h"
 
@@ -12,10 +12,18 @@
 #include "ASSIMP/postprocess.h"
 
 
-Model::Model() : Shader(nullptr), BaseColor(nullptr) {}
+Model::Model() : Shader(nullptr) {}
 
 Model::~Model()
 {
+	//clean up and delete the material stack
+	for (Material* LMat : MatStack) {
+		if (LMat != nullptr)
+			delete LMat;
+	}
+
+	MatStack.clear();
+
 	//clean up and delete meshes from memory
 	for (Mesh* LMesh : MeshStack) {
 		if (LMesh != nullptr) 
@@ -24,7 +32,6 @@ Model::~Model()
 
 	MeshStack.clear();
 
-	BaseColor = nullptr;
 	Shader = nullptr;
 }
 
@@ -38,7 +45,8 @@ bool Model::CreateSimpleShape(ShapeMatrices Shape, ShaderProgram* Shader)
 	//If it does not equal nullptr, add the approriate shader to the current mesh
 	this->Shader = Shader;
 
-	Mesh* NewMesh = new Mesh(Shader);
+	//create a new mesh object
+	Mesh* NewMesh = new Mesh();
 
 	if (!NewMesh->InitaliseVAO(Shape)) {
 		PP_MSG_ERR("GE", "Mesh VAO could not be created.");
@@ -54,8 +62,8 @@ bool Model::CreateSimpleShape(ShapeMatrices Shape, ShaderProgram* Shader)
 	//add our new mesh into the mesh stack
 	MeshStack.push_back(NewMesh);
 
-	//Add the default texture to the meshes
-	AddTexture(Game::GetGameInstance()->GetDefaultTexture());
+	//Add a single material to the model for our simple shapes
+	SetMaterialStack(1);
 
 	return true;
 }
@@ -89,12 +97,11 @@ bool Model::ImportFromFile(PPString& FilePath, ShaderProgram* Shader)
 	//store the shader
 	this->Shader = Shader;
 
+	SetMaterialStack(AScene->mNumMaterials);
+
 	//find all the meshes in the scene and convert them to parkplay meshes
 	//and add them to the model meshstack
 	ProcessMeshes(AScene->mRootNode, AScene);
-
-	//assign default texture to all meshes
-	AddTexture(Game::GetGameInstance()->GetDefaultTexture());
 
 	return true;
 }
@@ -104,18 +111,42 @@ void Model::Draw()
 	//draw all of the meshes as long as they are not null
 	for (Mesh* LMesh : MeshStack) {
 		//draw the mesh and update the transforms if it's not null
-		if (LMesh != nullptr) 
-			LMesh->Draw(Transform);
+		if (LMesh != nullptr) {
+			//running the material based on the assigned material index
+			MatStack[LMesh->GetMaterialIndex()]->Run(Transform);
+			//drawing the VAO
+			LMesh->Draw();
+		}
 	}
 }
 
-void Model::AddTexture(Texture* NewTexture)
+Material* Model::GetMaterialByIndex(PPUint Index)
 {
-	BaseColor = NewTexture;
-
-	for (Mesh* LMesh : MeshStack) {
-		LMesh->BaseColor = BaseColor;
+	//make sure there is a material slot AND that material slot is not nullptr
+	if (MatStack.size() <= Index) {
+		//if there is no material but there is a slot
+		PP_MSG_ERR("Model", "Material has no valid slot at that index");
+		return nullptr;
 	}
+
+	if (MatStack[Index] == nullptr) {
+		PP_MSG_ERR("Model", "Material has no valid material at that index");
+		return nullptr;
+	}
+
+	return MatStack[Index];
+}
+
+void Model::SetTextureByMaterial(PPUint MaterialIndex, ETEXTYPES TexType, Texture* NewTexture, float Multiplier)
+{
+	//validate check that the texture exists
+	if (GetMaterialByIndex(MaterialIndex) == nullptr) {
+		PP_MSG_ERR("Model", "Can't Change Texture");
+		return;
+	}
+
+	//change the texture
+	GetMaterialByIndex(MaterialIndex)->SetTexture(TexType, NewTexture, Multiplier);
 }
 
 void Model::ProcessMeshes(aiNode* Node, const aiScene* Scene)
@@ -195,13 +226,25 @@ Mesh* Model::ConvertMesh(aiMesh* AMesh, const aiScene* Scene)
 	}
 
 	//create a mesh and assign the models shader
-	Mesh* ConvMesh = new Mesh(Shader);
+	Mesh* ConvMesh = new Mesh();
 
 	//if creating the VAO fails for some reason
 	if (!ConvMesh->InitaliseVAO(Vertices, Indices)) {
 		PP_MSG_ERR("Model", "VAO failed to initialise for model: " << FilePath.c_str());
 		return nullptr;
 	}
+	
+	//Assign the material index to the mesh
+	ConvMesh->SetMaterialIndex(AMesh->mMaterialIndex);
 
 	return ConvMesh;
+}
+
+void Model::SetMaterialStack(PPUint NumMaterials)
+{
+	MatStack.resize(NumMaterials);
+
+	for (PPUint i = 0; i < NumMaterials; i++) {
+		MatStack[i] = new Material(Shader, Game::GetGameInstance()->GetDefaultTexture());
+	}
 }

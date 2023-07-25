@@ -6,6 +6,7 @@
 #include "graphics/ShaderProgram.h"
 #include "graphics/ShapeMatrices.h"
 #include "graphics/Model.h"
+#include "graphics/Material.h"
 
 Game* Game::GetGameInstance()
 {
@@ -96,7 +97,11 @@ void Game::BeginPlay()
 	Cube2 = Graphics->Create3DShape(ppsm3D::Cube);
 
 	//change one of the cubes to a different texture
-	Cube1->AddTexture(Graphics->GetTexture("Engine/developer/textures/default_texGRN.png"));
+	Cube1->SetTextureByMaterial(
+		0,
+		ETEXTYPES::BaseColor,
+		Graphics->GetTexture("Engine/developer/textures/default_texGRN.png")
+	);
 
 	//move the cubes away from each other
 	Cube1->Transform.Location += glm::vec3(2.0f, 0.0f, 1.0f);
@@ -105,8 +110,16 @@ void Game::BeginPlay()
 	Model* Cube3 = Graphics->Create3DShape(ppsm3D::Cube);
 	Model* Cube4 = Graphics->Create3DShape(ppsm3D::Cube);
 
-	Cube3->AddTexture(Graphics->GetTexture("Engine/developer/textures/cobble.png"));
-	Cube4->AddTexture(Graphics->GetTexture("Engine/developer/textures/carpet.png"));
+	Cube3->SetTextureByMaterial(
+		0,
+		ETEXTYPES::BaseColor, 
+		Graphics->GetTexture("Engine/developer/textures/cobble.png")
+	);
+	Cube4->SetTextureByMaterial(
+		0,
+		ETEXTYPES::BaseColor, 
+		Graphics->GetTexture("Engine/developer/textures/carpet.png")
+	);
 
 	Cube3->Transform.Location += glm::vec3(-4.0f, -1.0f, 1.0f);
 	Cube3->Transform.Scale = glm::vec3(0.5f);
@@ -120,18 +133,37 @@ void Game::BeginPlay()
 	PPString RingPath = "Engine/developer/models/ring_gltf/scene.gltf";
 
 	//custom models
+	//Wall
 	Wall = Graphics->Import3DModel(WallPath);
-	Wall->AddTexture(Graphics->GetTexture("Engine/developer/models/damaged_wall/T_Wall_Damaged_2x1_A_basecolor.png"));
-	Wall->Transform.Location += glm::vec3(7.0f, 0.0f, -3.0f);
-	Wall->Transform.Rotation = glm::vec3(0.0f, 90.0f, 0.0f);
-	Wall->Transform.Scale *= 0.01;
 
+	if (Wall != nullptr) {
+			Wall->SetTextureByMaterial(
+				1,
+				ETEXTYPES::BaseColor,
+				Graphics->GetTexture("Engine/developer/models/damaged_wall/T_Wall_Damaged_2x1_A_basecolor.png")
+			);
+
+		Wall->Transform.Location += glm::vec3(7.0f, 0.0f, -3.0f);
+		Wall->Transform.Rotation = glm::vec3(0.0f, 90.0f, 0.0f);
+		Wall->Transform.Scale *= 0.01;
+
+	}
+
+	//Ring
 	Ring = Graphics->Import3DModel(RingPath);
-	Ring->AddTexture(Graphics->GetTexture("Engine/developer/models/ring_gltf/defaultMat_baseColor.jpeg"));
-	Ring->Transform.Scale *= 0.1;
-	Ring->Transform.Location += glm::vec3(5.0f, 0.0f, 5.0f);
-	Ring->Transform.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
-	
+
+	if (Ring != nullptr) {
+			Ring->SetTextureByMaterial(
+				0,
+				ETEXTYPES::BaseColor,
+				Graphics->GetTexture("Engine/developer/models/ring_gltf/defaultMat_baseColor.jpeg")
+			);
+
+		Ring->Transform.Scale *= 0.1;
+		Ring->Transform.Location += glm::vec3(5.0f, 0.0f, 5.0f);
+		Ring->Transform.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
+
+	}
 }
 
 void Game::ProcessInput()
