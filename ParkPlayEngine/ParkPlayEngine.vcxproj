@@ -135,6 +135,8 @@
   <ItemGroup>
     <ClCompile Include="Engine\dependencies\includes\STBIMAGE\stb_image.cpp" />
     <ClCompile Include="Engine\developer\private\Game.cpp" />
+    <ClCompile Include="Engine\developer\private\GameObject.cpp" />
+    <ClCompile Include="Engine\developer\private\GameState.cpp" />
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Camera.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Lights.cpp" />
@@ -152,6 +154,8 @@
     <ClInclude Include="Engine\developer\private\HeaderTemplate.h" />
     <ClInclude Include="Engine\developer\public\CoreMinimal.h" />
     <ClInclude Include="Engine\developer\public\Game.h" />
+    <ClInclude Include="Engine\developer\public\GameObject.h" />
+    <ClInclude Include="Engine\developer\public\GameState.h" />
     <ClInclude Include="Engine\developer\public\GraphicsEngine.h" />
     <ClInclude Include="Engine\developer\public\graphics\Camera.h" />
     <ClInclude Include="Engine\developer\public\graphics\Lights.h" />

@@ -97,12 +97,12 @@ bool GraphicsEngine::Initialise()
 			//Set the current camera
 			CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
 
-			//set the default texture
+			//set the default textures
 			GetTexture("Engine/developer/textures/grey.png");
 			GetTexture("Engine/developer/textures/blu.png");
 			GetTexture("Engine/developer/textures/red.png");
 			GetTexture("Engine/developer/textures/grn.png");
-
+			
 			//DEBUG
 			CreateDirLight();
 			PointLight* L = CreatePointLight(100.0f, glm::vec3(1.0f), true);
