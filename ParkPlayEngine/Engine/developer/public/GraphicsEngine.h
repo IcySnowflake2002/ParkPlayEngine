@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "GLM/glm.hpp"
 
 typedef void* SDL_GLContext;
 struct SDL_Window;
@@ -8,6 +9,8 @@ class ShaderProgram;
 class ShapeMatrices;
 class Texture;
 class Camera;
+class PointLight;
+class DirLight;
 
 class GraphicsEngine {
 
@@ -45,11 +48,17 @@ public: //functions
 	//get texture using filepath or create if isn't loaded
 	Texture* GetTexture(const char* FilePath);
 
-	// Get the default engine texture
-	Texture* GetDefaultTexture() const { return DefaultEngineTexture; }
+	// Get the default engine textures
+	Texture* GetEngineTexture(EENGINETEX EngineTex) const { return TextureStack[EngineTex]; }
 
 	//get the default shader to apply to all models
 	ShaderProgram* GetDefaultShader() const { return TexShader;  }
+
+	//Create a point light
+	PointLight* CreatePointLight(float Attenuation, glm::vec3 Colour = glm::vec3(1.0f), bool bDebug = false);
+
+	//Create a directional light
+	DirLight* CreateDirLight(glm::vec3 Ambience = glm::vec3(0.0f), glm::vec3 Colour = glm::vec3(1.0f));
 
 private: //functions
 	bool InitEngineShaders();
@@ -70,9 +79,6 @@ private: //variables
 	//texture colour shader
 	ShaderProgram* TexShader;
 
-	//default Texture that meshes will load
-	Texture* DefaultEngineTexture;
-
 	//hold all of the textures loaded into the game
 	TArray<Texture*> TextureStack;
 
@@ -81,5 +87,11 @@ private: //variables
 
 	//store all models in the game
 	TArray<Model*> ModelStack;
+
+	//store all of the lights in the game
+	//store the point lights
+	TArray<PointLight*> PointLightStack;
+	//store the dir lights
+	TArray<DirLight*> DirLightStack;
 
 };

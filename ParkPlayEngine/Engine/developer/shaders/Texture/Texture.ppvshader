@@ -3,17 +3,24 @@
 
 // getting the attribute pointer at the 0 location (vertex positions for us)
 layout(location = 0) in vec3 InPosition;
-layout(location = 1) in vec2 InTexCoords;
-
-out vec2 TexCoords;
+layout(location = 1) in vec3 InNormal;
+layout(location = 2) in vec2 InTexCoords;
 
 uniform mat4 Model = mat4(1.0f); //The location of the 3D object
 uniform mat4 View = mat4(1.0f); //the location of the camera
 uniform mat4 Projection = mat4(1.0f); //the world space coordinates
+
+out vec2 TexCoords;
+out vec3 CamPosition; // camera position
+out vec3 VPosition; //vertex position in relation to the model
+out vec3 VNormal; //vertex normal
 
 void main() {
 	//Create the MVP coordinates system
 	gl_Position = Projection * View * Model * vec4(InPosition, 1.0f);
 
 	TexCoords = InTexCoords;
+	CamPosition = vec3(View);
+	VPosition = vec3(Model * vec4(InPosition, 1.0f));
+	VNormal = mat3(transpose(inverse(Model))) * InNormal;
 }

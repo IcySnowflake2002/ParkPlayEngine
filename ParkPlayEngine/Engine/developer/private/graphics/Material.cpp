@@ -5,13 +5,15 @@
 #include "GLM/gtc/matrix_transform.hpp"
 
 
-Material::Material(ShaderProgram* Shader, Texture* DefaultTex) 
+Material::Material(ShaderProgram* Shader, Texture* DefaultTex, Texture* DefaultNormal) 
 	: Shader(Shader)
 {
 	// Update all textures to use the default texture
 	for (PPUint i = 0; i < TEXTYPES_NUM; i++) {
 		Textures[i] = DefaultTex;
 	}
+
+	EmissiveOverride = glm::vec3(0.0f);
 }
 
 void Material::Run(PPTransform Transform)
@@ -30,6 +32,8 @@ void Material::Run(PPTransform Transform)
 		Shader->SetUniformArrayFloat("TMultipliers", i, Multipliers[i]);
 
 	}
+
+	Shader->SetUniformVec3("EmissiveOverride", EmissiveOverride);
 
 	//Update the shader with the transforms based on the model
 	UpdateShaderTransforms(Transform);
@@ -61,6 +65,11 @@ void Material::SetMultiplier(ETEXTYPES Type, float Multiplier)
 	//Update the multiplier relevant to the texture type
 	Multipliers[Type] = Multiplier;
 
+}
+
+void Material::SetEmissiveOverride(glm::vec3 Colour, float Multiplier) 
+{
+	EmissiveOverride = Colour * Multiplier;
 }
 
 void Material::UpdateShaderTransforms(PPTransform Transform)

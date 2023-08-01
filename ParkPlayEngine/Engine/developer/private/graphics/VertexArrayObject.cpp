@@ -31,8 +31,11 @@ VertexArrayObject::VertexArrayObject(const TArray<PPVertex>& vertexData, const T
 	//find the positions in the vertex
 	SetAttributePointer(0, 3, GL_FLOAT, VERTEX_SIZE * sizeof(float), 0);
 
+	//store the normal value of the vertex inside the shader
+	SetAttributePointer(1, 3, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*)(3 * sizeof(float)));
+
 	//store the texture coordinates for the shader
-	SetAttributePointer(1, 2, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*) (6 * sizeof(float)));
+	SetAttributePointer(2, 2, GL_FLOAT, VERTEX_SIZE * sizeof(float), (void*) (6 * sizeof(float)));
 
 	//Once everything is set clear the VAO from the VAO slot
 	Unbind();

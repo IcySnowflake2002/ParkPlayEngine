@@ -129,6 +129,13 @@ void ShaderProgram::SetUniformArrayFloat(const char* ArrayName, PPUint Index, fl
 	glUniform1f(UniformLoc + Index, Value);
 }
 
+void ShaderProgram::SetUniformVec3(const char* VarName, glm::vec3 Value)
+{
+	int UniformLoc = glGetUniformLocation(ProgramID, VarName);
+
+	glUniform3fv(UniformLoc, 1, value_ptr(Value));
+}
+
 PPUint ShaderProgram::CreateShader(PPShaderTypes ShaderType, const PPString& FilePath)
 {
 	PPString ShaderCode = ConvertShaderFile(FilePath);

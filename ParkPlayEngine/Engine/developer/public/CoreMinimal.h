@@ -27,3 +27,9 @@ typedef unsigned int PPUint;
 //Simplified string
 typedef std::string PPString;
 
+enum EENGINETEX : PPUint {
+	ETGrey50 = 0,		//0
+	ETBlue,			//1
+	ETRed,			//2
+	ETGreen			//3
+};

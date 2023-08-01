@@ -2,9 +2,12 @@
 // fragment shader
 
 in vec2 TexCoords;
+in vec3 CamPosition;
+in vec3 VPosition;
+in vec3 VNormal;
 out vec4 FragColor;
 
-const int TEXTYPES_NUM = 5;
+const int TEXTYPES_NUM = 3;
 
 //uniform means accept value from C++
 //sampler2D is a texture file
@@ -15,12 +18,123 @@ uniform sampler2D[TEXTYPES_NUM] Textures;
 //Store the multiplers for each texture
 uniform float[TEXTYPES_NUM] TMultipliers;
 
+//out unlit override colour
+uniform vec3 EmissiveOverride;
+
+//LIGHT VARIABLES
+
+
+//DIR LIGHT
+
+
+//Define the number of Dir Lights
+const int MAX_LIGHTS_DIR = 3;
+
+//Defining the data for a directional light
+struct DirLight {
+	vec3 Direction;
+	vec3 Colour;
+	vec3 Ambience;
+};
+
+//how many lights to render 
+uniform int NUM_LIGHTS_DIR;
+
+//store the directional light info
+uniform DirLight DirLights[MAX_LIGHTS_DIR];
+
+
+//POINT LIGHTS
+
+
+//define the number of Point lights
+const int MAX_LIGHTS_POINT = 20;
+
+//defining the data for a point light
+struct PointLight {
+	vec3 Position;
+	vec3 Colour;
+	float Attenuation;
+};
+
+//how many lights to render
+uniform int NUM_LIGHTS_POINT;
+
+//store the point light info
+uniform PointLight PointLights[MAX_LIGHTS_POINT];
+
+vec3 CalculateSpecPower(vec3 Normal, vec3 LightDir, vec3 ViewDir, vec3 LightColour, float Intensity, float SpecularValue);
+vec3 CalculateDirLight(vec3 Normal, vec3 ViewDir, float SpecularValue);
+
 void main() {
 	// get the colours from the texture
 	vec4 BaseColour = texture(Textures[0], TexCoords);
+	vec4 SpecularMap = texture(Textures[1], TexCoords);
+	vec4 NormalMap = texture(Textures[2], TexCoords);
 
+	//multiply the colour by the multipler value
 	BaseColour.rgb *= TMultipliers[0]; 
 
+	//take the red channel for the SpecValue
+	SpecularMap.r *= TMultipliers[1];
+
+	//Perform the lighting calculations
+	//Direction the vertex is being viewed from
+	vec3 ViewDir = normalize(VPosition - CamPosition);
+	vec3 Normal = normalize(VNormal);
+
+	if (NormalMap.rgb != vec3(0.0f, 1.0f, 0.0f)) {
+		//extract the normal values from the map
+		//convert the normal map to a normalized value between 1.0f and -1.0f
+		vec3 NormalFromMap = normalize(NormalMap.rgb * 2.0f - 1.0f);
+
+		//algorithm for converting normal maps
+		vec3 T = normalize(vec3(0.0f, -1.0f, 1.0f));
+		vec3 N = Normal;
+		vec3 B = cross(N, T);
+		mat3 TBN = mat3(T, B, N);
+		Normal = TBN * NormalFromMap;
+
+	}
+	
+	vec3 DirLightValue = CalculateDirLight(Normal, ViewDir, SpecularMap.r);
+
 	//Pass the base colour into the colour of the shader
-	FragColor = BaseColour;
+	vec3 FinalColour = BaseColour.rgb * DirLightValue;
+
+	if (length(EmissiveOverride) > 0.0f) {
+		FinalColour = EmissiveOverride;
+	}
+	
+	FragColor = vec4(FinalColour, 1.0f);
+}
+
+vec3 CalculateDirLight(vec3 Normal, vec3 ViewDir, float SpecularValue) {
+	vec3 Lighting = vec3(0.0f);
+
+	for (int i = 0; i < NUM_LIGHTS_DIR; i++) {
+		//reflected light direction
+		vec3 LightDir = normalize(-DirLights[i].Direction);
+
+		//determine if the vertex should recieve light based on the direction
+		float Intensity = max(dot(Normal, LightDir), 0.0f);
+
+		//apply the light colour to the light based on the intensity
+		Lighting += Intensity * DirLights[i].Colour;
+
+		//add any ambience to the light
+		Lighting += DirLights[i].Ambience;
+
+		//add the specular lighting
+		Lighting += CalculateSpecPower(Normal, LightDir, ViewDir, DirLights[i].Colour, Intensity, SpecularValue);
+	}
+
+	return Lighting;
+}
+
+vec3 CalculateSpecPower(vec3 Normal, vec3 LightDir, vec3 ViewDir, vec3 LightColour, float Intensity, float SpecularValue) {
+	//apply specular using the phong shading model
+	float SpecPower = pow(max(dot(ViewDir, reflect(-LightDir, Normal)), 0.0f), SpecularValue * 128.0f);
+
+	return LightColour * Intensity * SpecPower;
 }

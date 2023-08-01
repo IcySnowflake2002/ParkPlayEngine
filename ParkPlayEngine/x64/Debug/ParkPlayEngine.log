@@ -1,15 +1,7 @@
-﻿  Game.cpp
+﻿  GraphicsEngine.cpp
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,20): warning C4099: 'ShapeMatrices': type name first seen using 'struct' now seen using 'class'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
-  Model.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(7,21): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,7): message : see declaration of 'ShapeMatrices'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
-  Generating Code...
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(141,108): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll

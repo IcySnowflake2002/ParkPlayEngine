@@ -51,6 +51,9 @@ public: //functions
 	//set a float in an array in the shader
 	void SetUniformArrayFloat(const char* ArrayName, PPUint Index, float Value);
 
+	//set a vec3 in the shader
+	void SetUniformVec3(const char* VarName, glm::vec3 Value);
+
 public: //variables
 
 

@@ -245,6 +245,7 @@ void Model::SetMaterialStack(PPUint NumMaterials)
 	MatStack.resize(NumMaterials);
 
 	for (PPUint i = 0; i < NumMaterials; i++) {
-		MatStack[i] = new Material(Shader, Game::GetGameInstance()->GetDefaultTexture());
+		MatStack[i] = new Material(Shader, Game::GetGameInstance()->GetEngineTexture(ETGrey50),
+			Game::GetGameInstance()->GetEngineTexture(ETBlue));
 	}
 }

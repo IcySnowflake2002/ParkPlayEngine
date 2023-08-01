@@ -8,6 +8,11 @@
 #include "graphics/Camera.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "graphics/ShapeMatrices.h"
+#include "graphics/Lights.h"
+
+#define MAX_LIGHTS_DIR 3
+#define	MAX_LIGHTS_POINT 20
+
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -15,7 +20,6 @@ GraphicsEngine::GraphicsEngine()
 	Renderer = nullptr;
 	VCShader = nullptr;
 	TexShader = nullptr;
-	DefaultEngineTexture = nullptr;
 	CurrentCamera = nullptr;
 }
 
@@ -90,10 +94,19 @@ bool GraphicsEngine::Initialise()
 			//Initalise the engine shaders
 			InitEngineShaders();
 
+			//Set the current camera
 			CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
 
 			//set the default texture
-			DefaultEngineTexture = GetTexture("Engine/developer/textures/default_texBLU.png");
+			GetTexture("Engine/developer/textures/grey.png");
+			GetTexture("Engine/developer/textures/blu.png");
+			GetTexture("Engine/developer/textures/red.png");
+			GetTexture("Engine/developer/textures/grn.png");
+
+			//DEBUG
+			CreateDirLight();
+			PointLight* L = CreatePointLight(100.0f, glm::vec3(1.0f), true);
+			L->Transform.Location = glm::vec3(5.0f, 0.0f, 0.0f);
 
 			//intialise with shapes filled
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -125,6 +138,18 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
+	GetDefaultShader()->SetUniformInt("NUM_LIGHTS_DIR", std::min(DirLightStack.size(), (size_t)MAX_LIGHTS_DIR));
+
+
+	//draw the directional lights
+	for (PPUint i = 0; i < DirLightStack.size() && i < MAX_LIGHTS_DIR; i++) {
+		DirLightStack[i]->Draw(i);
+	}
+
+	//draw the point lights
+	for (PPUint i = 0; i < PointLightStack.size() && i < MAX_LIGHTS_POINT; i++) {
+		PointLightStack[i]->Draw(i);
+	}
 
 	// loop through all of the mesh stack elements
 	for (Model* LModel : ModelStack) {
@@ -205,6 +230,34 @@ Texture* GraphicsEngine::GetTexture(const char* FilePath)
 	TextureStack.push_back(NewTexture);
 
 	return NewTexture;
+}
+
+PointLight* GraphicsEngine::CreatePointLight(float Attenuation, glm::vec3 Colour, bool bDebug)
+{
+	PointLight* NewLight = new PointLight(GetDefaultShader(), Attenuation, Colour, bDebug);
+
+	if (NewLight == nullptr) {
+		PP_MSG_ERR("Graphics Engine", "Point Light couldn't be created.");
+		return nullptr;
+	}
+
+	PointLightStack.push_back(NewLight);
+
+	return NewLight;
+}
+
+DirLight* GraphicsEngine::CreateDirLight(glm::vec3 Ambience, glm::vec3 Colour)
+{
+	DirLight* NewLight = new DirLight(GetDefaultShader(), Ambience, Colour);
+
+	if (NewLight == nullptr) {
+		PP_MSG_ERR("Graphics Engine", "Point Light couldn't be created.");
+		return nullptr;
+	}
+
+	DirLightStack.push_back(NewLight);
+
+	return NewLight;
 }
 
 bool GraphicsEngine::InitEngineShaders()

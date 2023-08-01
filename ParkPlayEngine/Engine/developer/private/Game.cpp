@@ -46,9 +46,14 @@ void Game::CloseGame()
 	bIsGameOver = true;
 }
 
-Texture* Game::GetDefaultTexture() const
+Texture* Game::GetEngineTexture(EENGINETEX EngineTex) const
 {
-	return Graphics->GetDefaultTexture();
+	return Graphics->GetEngineTexture(EngineTex);
+}
+
+Model* Game::Import3DModel(PPString& FilePath)
+{
+	return Graphics->Import3DModel(FilePath);
 }
 
 ShaderProgram* Game::GetDefaultShader() const
@@ -186,6 +191,9 @@ void Game::Update()
 	DeltaTime = NewDelta / 1000.0;
 	//update the last frame time for the next loop
 	LastFrameTime = CurrentFrameTime;
+
+	//Set game timer
+	GameTimer += GetDeltaTimeF();
 
 	//Update any logic in the graphics engine
 	Graphics->Update();

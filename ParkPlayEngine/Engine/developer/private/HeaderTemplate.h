@@ -15,4 +15,10 @@ private: //functions
 private: //variables
 
 
+protected: //functions
+
+
+protected: //variables
+
+
 };

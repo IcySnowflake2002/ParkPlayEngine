@@ -1,4 +1,5 @@
 #pragma once
+#include "CoreMinimal.h"
 
 class GraphicsEngine;
 class Texture;
@@ -22,7 +23,10 @@ public: //functions
 	void CloseGame();
 
 	// Get the default Texture for objects
-	Texture* GetDefaultTexture() const;
+	Texture* GetEngineTexture(EENGINETEX EngineTex) const;
+
+	//import 3D Model to the graphics engine
+	Model* Import3DModel(PPString& FilePath);
 
 	//get the default shader for objects
 	ShaderProgram* GetDefaultShader() const;
@@ -73,6 +77,9 @@ private: //variables
 
 	//the time between each frame
 	double DeltaTime;
+
+	//timer for the race
+	float GameTimer;
 
 	//holds the input logic for the game (using SDL2)
 	Input* GameInput;
