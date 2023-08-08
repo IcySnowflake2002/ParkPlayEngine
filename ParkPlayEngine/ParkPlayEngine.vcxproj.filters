@@ -54,6 +54,15 @@
     <ClCompile Include="Engine\developer\private\graphics\Lights.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\developer\private\physics\AABBCollision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\developer\private\GameObjects\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\developer\private\GameObjects\Collectible.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\dependencies\includes\STBIMAGE\stb_image.h">
@@ -102,6 +111,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\developer\public\graphics\Lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\public\physics\AABBCollision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\public\GameObjects\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\developer\public\GameObjects\Collectible.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

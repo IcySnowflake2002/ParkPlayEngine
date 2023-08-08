@@ -79,9 +79,6 @@ void ShaderProgram::Run() const
 	if (ProgramID != 0) {
 		glUseProgram(ProgramID);
 	}
-	else {
-		PP_MSG_ERR("Shader Program", "Cannot run shader as it doesn't exist.");                        
-	}
 }
 
 void ShaderProgram::SetUniformTransform(const char* TransformName, glm::mat4 Transform)

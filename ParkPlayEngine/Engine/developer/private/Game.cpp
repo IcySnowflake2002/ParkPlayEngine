@@ -6,7 +6,10 @@
 #include "graphics/ShaderProgram.h"
 #include "graphics/ShapeMatrices.h"
 #include "graphics/Model.h"
+#include "graphics/Lights.h"
 #include "graphics/Material.h"
+#include "GameObjects/GameObject.h"
+#include "GameObjects/Collectible.h"
 
 Game* Game::GetGameInstance()
 {
@@ -61,6 +64,21 @@ ShaderProgram* Game::GetDefaultShader() const
 	return Graphics->GetDefaultShader();
 }
 
+DirLight* Game::CreateDirLight(glm::vec3 Ambience, glm::vec3 Colour) const
+{
+	return Graphics->CreateDirLight(Ambience, Colour);
+}
+
+PointLight* Game::CreatePointLight(float Attenuation, glm::vec3 Colour, bool bDebug)
+{
+	return Graphics->CreatePointLight(Attenuation, Colour, bDebug);
+}
+
+void Game::RemoveModelFromGraphics(Model* ModelRef)
+{
+	Graphics->RemoveModelByRef(ModelRef);
+}
+
 Game::Game()
 {
 	bIsGameOver = false;
@@ -97,9 +115,29 @@ bool Game::Initialise()
 void Game::BeginPlay()
 {
 	//TODO: Add anything that needs to load at the start
+	// CREATE LIGHTS
+	
+	//Create a directional light
+	CreateDirLight(glm::vec3(-70.0f), glm::vec3(1.0f, 1.0f, 0.5f));
 
-	Cube1 = Graphics->Create3DShape(ppsm3D::Cube);
-	Cube2 = Graphics->Create3DShape(ppsm3D::Cube);
+	//Create a point light
+	PointLight* L = CreatePointLight(10.0f, glm::vec3(1.0f), true);
+	L->Transform.Location = glm::vec3(5.0f, 0.0f, 0.0f);
+
+	PointLight* L2 = CreatePointLight(-30.0f, glm::vec3(1.0f), true);
+	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
+
+	CollectibleObj = new Collectible(PPTransform());
+	CollectibleObj->BeginPlay();
+	CollectibleObj->Transform.Scale *= 100.0f;
+
+
+	//Load the file path for a 3D cube/sphere
+	PPString CubePath = ("Engine/developer/models/PrimitiveModels/Sphere.fbx");
+
+	//Set the Cube models to the CubePath
+	Cube1 = Import3DModel(CubePath);
+	Cube2 = Import3DModel(CubePath);
 
 	//change one of the cubes to a different texture
 	Cube1->SetTextureByMaterial(
@@ -112,20 +150,25 @@ void Game::BeginPlay()
 	Cube1->Transform.Location += glm::vec3(2.0f, 0.0f, 1.0f);
 	Cube2->Transform.Location += glm::vec3(2.0f, -1.0f, -1.0f);
 
-	Model* Cube3 = Graphics->Create3DShape(ppsm3D::Cube);
-	Model* Cube4 = Graphics->Create3DShape(ppsm3D::Cube);
+	//Create two new cubes
+	Model* Cube3 = Import3DModel(CubePath);
+	Model* Cube4 = Import3DModel(CubePath);
 
+	//Set Cube 3 to a cobblestone texture
 	Cube3->SetTextureByMaterial(
 		0,
 		ETEXTYPES::BaseColor, 
 		Graphics->GetTexture("Engine/developer/textures/cobble.png")
 	);
+	
+	//Set cube 4 to a carpet Texture
 	Cube4->SetTextureByMaterial(
 		0,
 		ETEXTYPES::BaseColor, 
 		Graphics->GetTexture("Engine/developer/textures/carpet.png")
 	);
 
+	//Adjust Cube3 and Cube4 transforms
 	Cube3->Transform.Location += glm::vec3(-4.0f, -1.0f, 1.0f);
 	Cube3->Transform.Scale = glm::vec3(0.5f);
 
@@ -197,6 +240,9 @@ void Game::Update()
 
 	//Update any logic in the graphics engine
 	Graphics->Update();
+
+	//Update the game object
+	CollectibleObj->Update(GetDeltaTimeF());
 
 	//Transforming Objects
 	//Rotating Cube 1

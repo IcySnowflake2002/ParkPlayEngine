@@ -1,11 +1,16 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "PPTransform.h"
 
 class GraphicsEngine;
 class Texture;
 class Input;
 class ShaderProgram;
 class Model;
+class DirLight;
+class PointLight;
+class GameObject;
+class Collectible;
 
 class Game {
 
@@ -39,6 +44,15 @@ public: //functions
 
 	//Get input for the game
 	Input* GetGameInput() const { return GameInput; }
+
+	//create a directional light and render it in the graphics
+	DirLight* CreateDirLight(glm::vec3 Ambience = glm::vec3(0.0f), glm::vec3 Colour = glm::vec3(1.0f)) const;
+
+	//create a point light and render it in the graphics
+	PointLight* CreatePointLight(float Attenuation, glm::vec3 Colour = glm::vec3(1.0f), bool bDebug = false);
+
+	//removes a model from the graphics engine
+	void RemoveModelFromGraphics(Model* ModelRef);
 
 public: //variables
 
@@ -83,6 +97,8 @@ private: //variables
 
 	//holds the input logic for the game (using SDL2)
 	Input* GameInput;
+
+	Collectible* CollectibleObj;
 
 	//Models
 	Model* Cube1;

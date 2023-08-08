@@ -65,6 +65,7 @@ uniform PointLight PointLights[MAX_LIGHTS_POINT];
 
 vec3 CalculateSpecPower(vec3 Normal, vec3 LightDir, vec3 ViewDir, vec3 LightColour, float Intensity, float SpecularValue);
 vec3 CalculateDirLight(vec3 Normal, vec3 ViewDir, float SpecularValue);
+vec3 CalculatePointLight(vec3 Normal, vec3 ViewDir, vec3 VertexPos, float SpecularValue);
 
 void main() {
 	// get the colours from the texture
@@ -83,7 +84,7 @@ void main() {
 	vec3 ViewDir = normalize(VPosition - CamPosition);
 	vec3 Normal = normalize(VNormal);
 
-	if (NormalMap.rgb != vec3(0.0f, 1.0f, 0.0f)) {
+	if (NormalMap.rgb != vec3(0.0f, 0.0f, 1.0f)) {
 		//extract the normal values from the map
 		//convert the normal map to a normalized value between 1.0f and -1.0f
 		vec3 NormalFromMap = normalize(NormalMap.rgb * 2.0f - 1.0f);
@@ -98,15 +99,47 @@ void main() {
 	}
 	
 	vec3 DirLightValue = CalculateDirLight(Normal, ViewDir, SpecularMap.r);
+	vec3 PointLightValue = CalculatePointLight(Normal, ViewDir, VPosition, SpecularMap.r);
+
+	//combine the light values for the vertex
+	vec3 CompleteLightValue = DirLightValue + PointLightValue;
 
 	//Pass the base colour into the colour of the shader
-	vec3 FinalColour = BaseColour.rgb * DirLightValue;
+	vec3 FinalColour = BaseColour.rgb * CompleteLightValue;
 
 	if (length(EmissiveOverride) > 0.0f) {
 		FinalColour = EmissiveOverride;
 	}
 	
+	//out the final colour considering lighting
 	FragColor = vec4(FinalColour, 1.0f);
+}
+
+vec3 CalculatePointLight(vec3 Normal, vec3 ViewDir, vec3 VertexPos, float SpecularValue) {
+	vec3 Lighting = vec3(0.0f);
+
+	for (int i = 0; i < NUM_LIGHTS_POINT; i++) {
+		//Find the direction of the light based on the position of the light against the vertex
+		vec3 LightDir = normalize(PointLights[i].Position - VertexPos);
+
+		//find the distance between the light and the vertex
+		float Distance = length(PointLights[i].Position - VertexPos);
+
+		//calculate the amount of light the vertex should recieve based on its distance
+		//light attentuation * distance squared = between 0 and 1
+		float Attenuation = min(PointLights[i].Attenuation / (Distance * Distance), 1.0f);
+
+		//Calculate the intensity of the light based on the direction the vertex is facing
+		float Intensity = max(dot(Normal, LightDir), 0.0f);
+
+		//Multiplies out light value based on all of the calculations
+		Lighting += Intensity * Attenuation * PointLights[i].Colour;
+
+		//Calculate and add the specular value
+		Lighting += CalculateSpecPower(Normal, LightDir, ViewDir, PointLights[i].Colour, Intensity, SpecularValue);
+	}
+
+	return Lighting;
 }
 
 vec3 CalculateDirLight(vec3 Normal, vec3 ViewDir, float SpecularValue) {
@@ -120,10 +153,14 @@ vec3 CalculateDirLight(vec3 Normal, vec3 ViewDir, float SpecularValue) {
 		float Intensity = max(dot(Normal, LightDir), 0.0f);
 
 		//apply the light colour to the light based on the intensity
-		Lighting += Intensity * DirLights[i].Colour;
+		Lighting += Intensity;
 
 		//add any ambience to the light
-		Lighting += DirLights[i].Ambience;
+		//make sure ambience can't go below 0
+		Lighting = max(Lighting, max(DirLights[i].Ambience, vec3(0.0f)));
+
+		//add colour
+		Lighting *= DirLights[i].Colour;
 
 		//add the specular lighting
 		Lighting += CalculateSpecPower(Normal, LightDir, ViewDir, DirLights[i].Colour, Intensity, SpecularValue);

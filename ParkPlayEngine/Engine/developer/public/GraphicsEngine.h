@@ -60,6 +60,9 @@ public: //functions
 	//Create a directional light
 	DirLight* CreateDirLight(glm::vec3 Ambience = glm::vec3(0.0f), glm::vec3 Colour = glm::vec3(1.0f));
 
+	//Remove the given model from the game
+	void RemoveModelByRef(Model* ModelRef);
+
 private: //functions
 	bool InitEngineShaders();
 

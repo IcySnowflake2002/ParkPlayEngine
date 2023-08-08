@@ -42,6 +42,8 @@ public: //functions
 	DirLight(ShaderProgram* Shader, glm::vec3 Ambience = glm::vec3 (0.0f), glm::vec3 Colour = glm::vec3(1.0f))
 		: Light(Shader, Colour), Ambience(Ambience) {}
 
+	virtual void Draw(PPUint Index) override;
+
 public: //variables
 
 	//minimum light for all areas that have no light 

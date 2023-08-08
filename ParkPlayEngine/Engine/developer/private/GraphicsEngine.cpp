@@ -25,6 +25,46 @@ GraphicsEngine::GraphicsEngine()
 
 GraphicsEngine::~GraphicsEngine()
 {
+	//delete all the directional lights
+	for (DirLight* DL : DirLightStack) {
+		delete DL;
+	}
+
+	DirLightStack.clear();
+
+	//delete all the point lights
+	for (PointLight* PL : PointLightStack) {
+		delete PL;
+	}
+
+	PointLightStack.clear();
+
+	//delete all the models
+	for (Model* M : ModelStack) {
+		delete M;
+	}
+
+	ModelStack.clear();
+
+	//delete all of the textures
+	for (Texture* Tex : TextureStack) {
+		delete Tex;
+	}
+
+	TextureStack.clear();
+
+	//remove the camera
+	if (CurrentCamera != nullptr)
+		delete CurrentCamera;
+
+	//delete the shaders
+	if (VCShader != nullptr)
+		delete VCShader;
+	
+	if (TexShader != nullptr)
+		delete TexShader;
+
+	//delete the window and renderer
 	SDL_DestroyWindow(Window);
 	SDL_GL_DeleteContext(Renderer);
 }
@@ -103,15 +143,8 @@ bool GraphicsEngine::Initialise()
 			GetTexture("Engine/developer/textures/red.png");
 			GetTexture("Engine/developer/textures/grn.png");
 
-			//DEBUG
-			CreateDirLight();
-			PointLight* L = CreatePointLight(100.0f, glm::vec3(1.0f), true);
-			L->Transform.Location = glm::vec3(5.0f, 0.0f, 0.0f);
-
 			//intialise with shapes filled
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
 
 			return true;
 }
@@ -129,7 +162,7 @@ SDL_Window* GraphicsEngine::GetWindow() const
 void GraphicsEngine::ClearGraphics()
 {
 	// set the background colour when there are no objects over it
-	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -138,8 +171,11 @@ void GraphicsEngine::ClearGraphics()
 void GraphicsEngine::DrawGraphics()
 {
 	//TODO : Draw 3D Objects to the screen
+	//tell the shader how many directional lights to render
 	GetDefaultShader()->SetUniformInt("NUM_LIGHTS_DIR", std::min(DirLightStack.size(), (size_t)MAX_LIGHTS_DIR));
 
+	//tell the shader how many point lights to render
+	GetDefaultShader()->SetUniformInt("NUM_LIGHTS_POINT", std::min(PointLightStack.size(), (size_t)MAX_LIGHTS_POINT));
 
 	//draw the directional lights
 	for (PPUint i = 0; i < DirLightStack.size() && i < MAX_LIGHTS_DIR; i++) {
@@ -251,13 +287,26 @@ DirLight* GraphicsEngine::CreateDirLight(glm::vec3 Ambience, glm::vec3 Colour)
 	DirLight* NewLight = new DirLight(GetDefaultShader(), Ambience, Colour);
 
 	if (NewLight == nullptr) {
-		PP_MSG_ERR("Graphics Engine", "Point Light couldn't be created.");
+		PP_MSG_ERR("Graphics Engine", "Directional Light couldn't be created.");
 		return nullptr;
 	}
 
 	DirLightStack.push_back(NewLight);
 
 	return NewLight;
+}
+
+void GraphicsEngine::RemoveModelByRef(Model* ModelRef)
+{
+	TArray<Model*>::iterator IT = std::find(ModelStack.begin(), ModelStack.end(), ModelRef);
+
+	if (IT < ModelStack.end()) {
+		//delete the model from memory
+		delete (*IT);
+		//resize the array
+		ModelStack.erase(IT);
+	}
+
 }
 
 bool GraphicsEngine::InitEngineShaders()
