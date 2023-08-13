@@ -11,6 +11,7 @@ class DirLight;
 class PointLight;
 class GameObject;
 class Collectible;
+class Ring;
 
 class Game {
 
@@ -97,12 +98,8 @@ private: //variables
 
 	//holds the input logic for the game (using SDL2)
 	Input* GameInput;
-
+	
+	//Game Objects
 	Collectible* CollectibleObj;
-
-	//Models
-	Model* Cube1;
-	Model* Cube2;
-	Model* Wall;
-	Model* Ring;
+	Ring* RingObj;
 };
