@@ -3,21 +3,7 @@ C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\publi
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,20): warning C4099: 'ShapeMatrices': type name first seen using 'struct' now seen using 'class'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
-  GameObject.cpp
   Ring.cpp
-  Camera.cpp
-  Lights.cpp
-  Mesh.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Model.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(7,21): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,7): message : see declaration of 'ShapeMatrices'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
-  Input.cpp
-C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\Input.cpp(17,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Source.cpp
   Generating Code...
   ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll
