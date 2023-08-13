@@ -137,6 +137,7 @@
     <ClCompile Include="Engine\developer\private\Game.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\Collectible.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\GameObject.cpp" />
+    <ClCompile Include="Engine\developer\private\GameObjects\Ring.cpp" />
     <ClCompile Include="Engine\developer\private\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Camera.cpp" />
     <ClCompile Include="Engine\developer\private\graphics\Lights.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Engine\developer\public\Game.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\Collectible.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\GameObject.h" />
+    <ClInclude Include="Engine\developer\public\GameObjects\Ring.h" />
     <ClInclude Include="Engine\developer\public\GraphicsEngine.h" />
     <ClInclude Include="Engine\developer\public\graphics\Camera.h" />
     <ClInclude Include="Engine\developer\public\graphics\Lights.h" />
