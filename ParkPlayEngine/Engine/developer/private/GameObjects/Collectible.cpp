@@ -7,7 +7,7 @@
 
 void Collectible::BeginPlay()
 {
-	Model* M = AddModel("Engine/developer/models/PrimitiveModels/Sphere.fbx");
+	Model* M = AddModel("Engine/developer/models/damaged_wall/SM_Wall_Damaged_2x1_A.obj");
 	Texture* T = Game::GetGameInstance()->GetOrCreateTexture("Engine/developer/textures/grn.png");
 	M->SetTextureByMaterial(0, ETEXTYPES::BaseColor, T);
 

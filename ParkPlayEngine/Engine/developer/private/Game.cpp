@@ -151,6 +151,7 @@ void Game::BeginPlay()
 	//Create collectible objects
 	PPTransform ColTrans;
 	ColTrans.Location.x = 3.0f;
+	ColTrans.Scale = glm::vec3(0.1f);
 	GameObject* CollectibleObj = new Collectible(ColTrans);
 	AddGameObjectToGame(CollectibleObj);
 
