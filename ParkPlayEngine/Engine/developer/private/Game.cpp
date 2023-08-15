@@ -142,24 +142,28 @@ void Game::BeginPlay()
 	CreateDirLight(glm::vec3(-70.0f), glm::vec3(1.0f, 1.0f, 0.5f));
 
 	//Create a point light
-	PointLight* L = CreatePointLight(10.0f, glm::vec3(1.0f), false);
-	L->Transform.Location = glm::vec3(5.0f, 0.0f, 0.0f);
+	PointLight* L = CreatePointLight(100.0f, glm::vec3(5.0f), false);
+	L->Transform.Location = glm::vec3(5.0f, 0.0f, 10.0f);
 
 	PointLight* L2 = CreatePointLight(-30.0f, glm::vec3(1.0f), false);
 	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
 
 	//Create collectible objects
 	PPTransform ColTrans;
-	ColTrans.Location.x = 3.0f;
-	GameObject* CollectibleObj = new Collectible(ColTrans);
-	AddGameObjectToGame(CollectibleObj);
+	ColTrans.Location.x = 5.0f;
+	ColTrans.Scale = glm::vec3(0.025f);
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
+	GameObject* Ring = new Collectible(ColTrans);
 
-	ColTrans.Location.x += 3.0f;
-	GameObject* CollectibleObj2 = new Collectible(ColTrans);
-	AddGameObjectToGame(CollectibleObj2);
+	ColTrans.Location.x += 5.0f;
+	GameObject* Ring2 = new Collectible(ColTrans);
 
 	//create a player object
 	GameObject* PlayerObj = new Player(PPTransform());
+
+	//add gameobjects to the stack
+	AddGameObjectToGame(Ring);
+	AddGameObjectToGame(Ring2);
 	AddGameObjectToGame(PlayerObj);
 
 	//Run the BeginPlay functions for all game objects
