@@ -12,7 +12,7 @@ void Collectible::BeginPlay()
 	M->SetTextureByMaterial(0, ETEXTYPES::BaseColor, T);
 
 	ActiveTexture = Game::GetGameInstance()->GetOrCreateTexture("Engine/developer/textures/default_texGRN.png");
-
+	 
 	AddCollider(glm::vec3(1.0f));
 }
 
