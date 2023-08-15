@@ -37,11 +37,13 @@ void GameObject::Update(float DeltaTime)
 	}
 }
 
-void GameObject::AddModel(PPString FilePath)
+Model* GameObject::AddModel(PPString FilePath)
 {
 	Model* M = Game::GetGameInstance()->Import3DModel(FilePath);
 
 	ModelsRef.push_back(M);
+
+	return M;
 }
 
 void GameObject::AddCollider(glm::vec3 Size)

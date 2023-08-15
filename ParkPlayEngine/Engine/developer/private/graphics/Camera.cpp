@@ -12,7 +12,7 @@ Camera::Camera(float x, float y, float z)
 	NearClip = 0.1f;
 	FarClip = 1000.0f;
 	Speed = 5.0f;
-	LookSensitivity = 50.0f;
+	LookSensitivity = 40.0f;
 }
 
 Camera::~Camera()
@@ -22,84 +22,13 @@ Camera::~Camera()
 	FarClip = 0.0f;
 }
 
-void Camera::Update()
-{
-	Input* GameInput = Game::GetGameInstance()->GetGameInput();
-	float DeltaTime = Game::GetGameInstance()->GetDeltaTimeF();
-
-
-	//Move camera forward if W is down
-	if (GameInput->isKeyDown(SDL_SCANCODE_W)) {
-		AddMovementInput(Transform.GetForward());
-	}
-
-	//Move camera backwards if S is down
-	if (GameInput->isKeyDown(SDL_SCANCODE_S)) {
-		AddMovementInput(-Transform.GetForward());
-	}
-
-	//Move camera left if A is down
-	if (GameInput->isKeyDown(SDL_SCANCODE_A)) {
-		AddMovementInput(-Transform.GetRight());
-	}
-
-	//Move camera right if D is down
-	if (GameInput->isKeyDown(SDL_SCANCODE_D)) {
-		AddMovementInput(Transform.GetRight());
-	}
-
-	// move the camera up based on world rotation
-	if (GameInput->isKeyDown(SDL_SCANCODE_Q)) {
-		AddMovementInput(WORLD_UP);
-	}
-
-	//move the camera down based on world rotation
-	if (GameInput->isKeyDown(SDL_SCANCODE_E)) {
-		AddMovementInput(-WORLD_UP);
-	}
-
-	//activate rotational fly mode
-	if (GameInput->isMouseButtonDown(SDL_BUTTON_RIGHT)) {
-		GameInput->SetCursorVisible(false);
-
-		//rotating the pitch - mouse y looks up and down
-		float RotX = -GameInput->GetMouseData().MouseYDelta * DeltaTime;
-		//rotating the yaw - mouse x looks left and right
-		float RotY = GameInput->GetMouseData().MouseXDelta * DeltaTime;
-
-		//create a vec3 for the final rotation and consider sensitivity
-		glm::vec3 FinalRotation = glm::vec3(RotX, RotY, 0.0f) * LookSensitivity;
-
-		//change the rotation of the camera
-		AddRotation(FinalRotation);
-
-		//change the field of view if we are scrolling
-		if (GameInput->GetMouseData().ScrollDelta != 0) {
-
-			//get the new field of view
-			float NewFOV = FOV + -GameInput->GetMouseData().ScrollDelta * 5.0f;
-			
-			//make sure it can't go below 0 or above 180 to prevent the FOV from inverting
-			NewFOV = std::max(NewFOV, 0.0f);
-			NewFOV = std::min(NewFOV, 180.0f);
-
-			//set the FOV to the new FOV
-			FOV = NewFOV;
-		}
-	}
-	else {
-		//show the cursor
-		GameInput->SetCursorVisible(true);
-		
-		//reset the field of view if we changed it
-		if (FOV != DEFAULT_FOV) {
-			FOV = DEFAULT_FOV;
-		}
-	}
-}
-
 void Camera::AddMovementInput(glm::vec3 Direction, float Scale)
 {
+	//this will make sure that we don't go 2x speed when going diagonal
+	//and that direction only passes a direction
+	if (glm::length(Direction) > 0.0f)
+		Direction = glm::normalize(Direction);
+
 	// adjust the direction for the speed value
 	glm::vec3 SpeedDirection = Direction * Speed;
 
@@ -112,6 +41,9 @@ void Camera::AddMovementInput(glm::vec3 Direction, float Scale)
 
 void Camera::AddRotation(glm::vec3 Rotation)
 {
+	//this will make sure that sensitivity works for the camera rotation
+	Rotation *= LookSensitivity / 100.0f;
+
 	//Rotate the pitch
 	Transform.Rotation.x += Rotation.x;
 	

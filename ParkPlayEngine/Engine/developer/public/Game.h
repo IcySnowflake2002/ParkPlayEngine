@@ -11,6 +11,8 @@ class DirLight;
 class PointLight;
 class GameObject;
 class Collectible;
+class Camera;
+class Player;
 
 class Game {
 
@@ -53,6 +55,15 @@ public: //functions
 
 	//removes a model from the graphics engine
 	void RemoveModelFromGraphics(Model* ModelRef);
+
+	//set the current engine camera
+	void SetCurrentCamera(TSharedPtr<Camera> NewCamera);
+
+	//show or hide the mouse cursor
+	void SetCursorVisible(bool bVisible);
+
+	//create or get a texture from the graphics engine
+	Texture* GetOrCreateTexture(PPString FilePath);
 
 public: //variables
 
@@ -98,11 +109,8 @@ private: //variables
 	//holds the input logic for the game (using SDL2)
 	Input* GameInput;
 
-	Collectible* CollectibleObj;
-
-	//Models
-	Model* Cube1;
-	Model* Cube2;
-	Model* Wall;
-	Model* Ring;
+	//GameObjects
+	GameObject* CollectibleObj;
+	GameObject* CollectibleObj2;
+	GameObject* PlayerObj;
 };

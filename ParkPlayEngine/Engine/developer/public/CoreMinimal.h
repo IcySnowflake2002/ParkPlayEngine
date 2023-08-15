@@ -21,6 +21,10 @@
 template <typename T>
 using TArray = std::vector<T>;
 
+//create a simpler format for shared pointers
+template <typename T>
+using TSharedPtr = std::shared_ptr<T>;
+
 // at compile time replace all instances of PPUint with unsigned int
 typedef unsigned int PPUint;
 

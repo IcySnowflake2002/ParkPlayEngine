@@ -54,8 +54,7 @@ GraphicsEngine::~GraphicsEngine()
 	TextureStack.clear();
 
 	//remove the camera
-	if (CurrentCamera != nullptr)
-		delete CurrentCamera;
+	CurrentCamera = nullptr;
 
 	//delete the shaders
 	if (VCShader != nullptr)
@@ -134,8 +133,12 @@ bool GraphicsEngine::Initialise()
 			//Initalise the engine shaders
 			InitEngineShaders();
 
-			//Set the current camera
-			CurrentCamera = new Camera(0.0f, 0.0f, 0.0f);
+			//create a default camera
+			//x = back and forward
+			//y = up and down
+			//z = left and right
+			//create a shared pointer so that if this has no reference it deletes itself
+			CurrentCamera = std::make_shared<Camera>(0.0f, 0.0f, 0.0f);
 
 			//set the default texture
 			GetTexture("Engine/developer/textures/grey.png");
@@ -199,11 +202,6 @@ void GraphicsEngine::PresentGraphics()
 {
 	//present the opengl renderer to the window
 	SDL_GL_SwapWindow(Window);
-}
-
-void GraphicsEngine::Update()
-{
-	CurrentCamera->Update();
 }
 
 Model* GraphicsEngine::Create3DShape(ShapeMatrices Shape)
@@ -307,6 +305,11 @@ void GraphicsEngine::RemoveModelByRef(Model* ModelRef)
 		ModelStack.erase(IT);
 	}
 
+}
+
+void GraphicsEngine::SetCurrentCamera(TSharedPtr<Camera> NewCam)
+{
+	CurrentCamera = NewCam;
 }
 
 bool GraphicsEngine::InitEngineShaders()

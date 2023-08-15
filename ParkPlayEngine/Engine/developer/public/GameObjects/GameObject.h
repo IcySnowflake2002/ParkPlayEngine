@@ -21,7 +21,7 @@ public: //functions
 	AABBCollision* GetCollider() const { return Collider; }
 
 	//Add a model as a game object
-	void AddModel(PPString FilePath);
+	Model* AddModel(PPString FilePath);
 
 public: //variables
 	//location of the object in the world

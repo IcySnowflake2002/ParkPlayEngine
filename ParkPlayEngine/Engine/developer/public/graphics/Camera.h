@@ -10,9 +10,6 @@ public: //functions
 	Camera(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 	~Camera();
 
-	//Game logic for the camera
-	void Update();
-
 	// move the camera in a direction based on camera speed and scale
 	void AddMovementInput(glm::vec3 Direction, float Scale = 1.0f);
 

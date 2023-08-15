@@ -4,9 +4,11 @@
 
 class Collectible : public GameObject {
 public: //functions
-	Collectible(PPTransform Transform) : GameObject(Transform) {}
+	Collectible(PPTransform Transform) : GameObject(Transform), bActivated(false), ActiveTexture(nullptr) {}
 
 	virtual void BeginPlay() override;
+
+	void Activate(); 
 
 public: //variables
 
@@ -21,6 +23,8 @@ protected: //functions
 
 
 protected: //variables
+	bool bActivated;
 
+	Texture* ActiveTexture;
 
 };

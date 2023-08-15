@@ -36,9 +36,6 @@ public: //functions
 	//This will present the new frame to the renderer
 	void PresentGraphics();
 
-	//any logic updates for the Graphics Engine
-	void Update();
-
 	//Create a 3D shape using the texture shader
 	Model* Create3DShape(ShapeMatrices Shape);
 
@@ -63,6 +60,9 @@ public: //functions
 	//Remove the given model from the game
 	void RemoveModelByRef(Model* ModelRef);
 
+	//Remove the current camera and replace it with a new one
+	void SetCurrentCamera(TSharedPtr<Camera> NewCam);
+
 private: //functions
 	bool InitEngineShaders();
 
@@ -85,8 +85,9 @@ private: //variables
 	//hold all of the textures loaded into the game
 	TArray<Texture*> TextureStack;
 
+	//using a shared pointer - to reference the camera functions, you must use -> instead of .
 	//Current Rendering camera for the engine
-	Camera* CurrentCamera;
+	TSharedPtr<Camera> CurrentCamera;
 
 	//store all models in the game
 	TArray<Model*> ModelStack;
