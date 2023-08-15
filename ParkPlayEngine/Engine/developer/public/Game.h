@@ -65,6 +65,9 @@ public: //functions
 	//create or get a texture from the graphics engine
 	Texture* GetOrCreateTexture(PPString FilePath);
 
+	//add a game object to the game object stack
+	GameObject* AddGameObjectToGame(GameObject* NewGameObject);
+
 public: //variables
 
 
@@ -89,8 +92,12 @@ private: //functions
 	//render graphics to the screen
 	void Draw();
 
+	//delete all objects that are listed for deletion
+	void GarbageCollection();
+
 	//Uninitialise and delete all memory
 	void CleanUpGame();
+
 
 private: //variables
 
@@ -110,7 +117,5 @@ private: //variables
 	Input* GameInput;
 
 	//GameObjects
-	GameObject* CollectibleObj;
-	GameObject* CollectibleObj2;
-	GameObject* PlayerObj;
+	TArray<GameObject*> GameObjectStack;
 };

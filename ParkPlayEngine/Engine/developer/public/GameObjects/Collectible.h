@@ -8,6 +8,8 @@ public: //functions
 
 	virtual void BeginPlay() override;
 
+	virtual void DetectCollisions(GameObject* OtherObject) override;
+
 	void Activate(); 
 
 public: //variables

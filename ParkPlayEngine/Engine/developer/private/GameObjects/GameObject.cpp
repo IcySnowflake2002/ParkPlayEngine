@@ -14,15 +14,14 @@ GameObject::~GameObject()
 		delete Collider;
 	
 	//remove any models from reference
-	if (ModelsRef.size() > 0) {
 		//loop through all the models
 		for (Model* M : ModelsRef) {
-			//remove each one from the graphics engine
-			Game::GetGameInstance()->RemoveModelFromGraphics(M);
+			if (M != nullptr)
+				//remove each one from the graphics engine
+				Game::GetGameInstance()->RemoveModelFromGraphics(M);
 		}
 
 		ModelsRef.clear();
-	}
 }
 
 void GameObject::Update(float DeltaTime)

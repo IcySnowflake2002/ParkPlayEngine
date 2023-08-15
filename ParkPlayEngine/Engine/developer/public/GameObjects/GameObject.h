@@ -8,7 +8,7 @@ class Texture;
 
 class GameObject {
 public: //functions
-	GameObject(PPTransform DefaultTransform) : Transform(DefaultTransform), Collider(nullptr) {}
+	GameObject(PPTransform DefaultTransform) : Transform(DefaultTransform), Collider(nullptr), bShouldDestroy(false) {}
 	~GameObject();
 
 	//run on spawn
@@ -20,8 +20,14 @@ public: //functions
 	//get the collider of the game object
 	AABBCollision* GetCollider() const { return Collider; }
 
-	//Add a model as a game object
-	Model* AddModel(PPString FilePath);
+	//this will run only if there is a collision and will run for each potential collision
+	virtual void DetectCollisions(GameObject* OtherObject) {}
+
+	//mark the gameobject for destroy/deletion from the game
+	void DestroyObject() { bShouldDestroy = true; }
+
+	//get whether the object should be destroyed from the game
+	bool ShouldDestroy() const { return bShouldDestroy; }
 
 public: //variables
 	//location of the object in the world
@@ -31,7 +37,7 @@ private: //functions
 
 
 private: //variables
-
+	bool bShouldDestroy;
 
 protected: //functions
 	//add a collider to the gameobject
@@ -39,6 +45,9 @@ protected: //functions
 
 	//runs when the gameobject is destroyed
 	virtual void OnDestroy() {}
+
+	//Add a model as a game object
+	Model* AddModel(PPString FilePath);
 
 protected: //variables
 	//collider for the object

@@ -3,6 +3,7 @@
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
 #include "Game.h"
+#include "GameObjects/Player.h"
 
 void Collectible::BeginPlay()
 {
@@ -13,6 +14,13 @@ void Collectible::BeginPlay()
 	ActiveTexture = Game::GetGameInstance()->GetOrCreateTexture("Engine/developer/textures/grey.png");
 
 	AddCollider(glm::vec3(1.0f));
+}
+
+void Collectible::DetectCollisions(GameObject* OtherObject)
+{
+	if (dynamic_cast<Player*>(OtherObject)) {
+		DestroyObject();
+	}
 }
 
 void Collectible::Activate()

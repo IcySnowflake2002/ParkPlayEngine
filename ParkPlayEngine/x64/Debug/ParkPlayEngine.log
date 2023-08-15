@@ -1,9 +1,31 @@
-﻿  Game.cpp
+﻿  Source.cpp
+  Game.cpp
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,20): warning C4099: 'ShapeMatrices': type name first seen using 'struct' now seen using 'class'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
   Collectible.cpp
+  GameObject.cpp
+  Player.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GameObjects\Player.cpp(49,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GameObjects\Player.cpp(50,15): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  GraphicsEngine.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(178,108): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(181,114): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Input.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\Input.cpp(17,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Camera.cpp
+  Lights.cpp
+  Mesh.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Model.cpp
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(7,21): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,7): message : see declaration of 'ShapeMatrices'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
   Generating Code...
   ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll

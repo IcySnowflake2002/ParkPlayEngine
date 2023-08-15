@@ -40,6 +40,7 @@ void Game::Run()
 		ProcessInput();
 		Update();
 		Draw();
+		GarbageCollection();
 	}
 
 	//once game is over clean up any memory
@@ -97,15 +98,19 @@ Texture* Game::GetOrCreateTexture(PPString FilePath)
 	return Graphics->GetTexture(FilePath.c_str());
 }
 
+GameObject* Game::AddGameObjectToGame(GameObject* NewGameObject)
+{
+	GameObjectStack.push_back(NewGameObject);
+
+	return NewGameObject;
+}
+
 Game::Game()
 {
 	bIsGameOver = false;
 	Graphics = nullptr;
 	DeltaTime = 0.0;
 	GameInput = nullptr;
-	CollectibleObj = nullptr;
-	CollectibleObj2 = nullptr;
-	PlayerObj = nullptr;
 }
 
 Game::~Game()
@@ -143,18 +148,25 @@ void Game::BeginPlay()
 	PointLight* L2 = CreatePointLight(-30.0f, glm::vec3(1.0f), false);
 	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
 
+	//Create collectible objects
 	PPTransform ColTrans;
 	ColTrans.Location.x = 3.0f;
-	CollectibleObj = new Collectible(ColTrans);
-	CollectibleObj->BeginPlay();
+	GameObject* CollectibleObj = new Collectible(ColTrans);
+	AddGameObjectToGame(CollectibleObj);
 
 	ColTrans.Location.x += 3.0f;
-	CollectibleObj2 = new Collectible(ColTrans);
-	CollectibleObj2->BeginPlay();
+	GameObject* CollectibleObj2 = new Collectible(ColTrans);
+	AddGameObjectToGame(CollectibleObj2);
 
 	//create a player object
-	PlayerObj = new Player(PPTransform());
-	PlayerObj->BeginPlay();
+	GameObject* PlayerObj = new Player(PPTransform());
+	AddGameObjectToGame(PlayerObj);
+
+	//Run the BeginPlay functions for all game objects
+	for (GameObject* GO : GameObjectStack) {
+		if (GO != nullptr)
+			GO->BeginPlay();
+	}
 }
 
 void Game::ProcessInput()
@@ -166,9 +178,13 @@ void Game::ProcessInput()
 	if (GameInput->isKeyDown(SDL_SCANCODE_ESCAPE))
 		CloseGame();
 
-	//test if the player is a player object class and use that pointer if it is
-	if (Player* PO = dynamic_cast<Player*>(PlayerObj)) {
-		PO->ProcessInput(GameInput);
+	for (GameObject* GO : GameObjectStack) {
+		if (GO != nullptr) {
+			//test if the player is a player object class and use that pointer if it is
+			if (Player* PO = dynamic_cast<Player*>(GO)) {
+				PO->ProcessInput(GameInput);
+			}
+		}
 	}
 }
 
@@ -191,36 +207,31 @@ void Game::Update()
 	//TODO : Process the logic of the game
 
 	//Update the game object
-	//make sure the gameobjects are loaded
-	if (CollectibleObj != nullptr)
-		CollectibleObj->Update(GetDeltaTimeF());
-	
-	if (CollectibleObj2 != nullptr)
-		CollectibleObj2->Update(GetDeltaTimeF());
-	
-	if (PlayerObj != nullptr)
-		PlayerObj->Update(GetDeltaTimeF());
-
-	//if the player and collectible are not nullptr
-	if (PlayerObj != nullptr && CollectibleObj != nullptr) {
-		//if the player and the collectible collider are intersecting
-		if (AABBCollision::IsIntersecting(*PlayerObj->GetCollider(), *CollectibleObj->GetCollider())) {
-			delete CollectibleObj;
-			CollectibleObj = nullptr;
-		}
+	for (GameObject* GO : GameObjectStack) {
+		if (GO != nullptr)
+			GO->Update(GetDeltaTimeF());
 	}
 
-	//if the player and collectible are not nullptr
-	if (PlayerObj != nullptr && CollectibleObj2 != nullptr) {
-		//if the player and the collectible collider are intersecting
-		if (AABBCollision::IsIntersecting(*PlayerObj->GetCollider(), *CollectibleObj2->GetCollider())) {
-			//if collectible 2 is a collectible object
-			if (Collectible* CO = dynamic_cast<Collectible*>(CollectibleObj2)) {
-				CO->Activate();
+	//handle collision detection
+	for (GameObject* GO : GameObjectStack) {
+		if (GO != nullptr) {
+			//if the game object does not have a collider then ignore it and go the next one
+			if (GO->GetCollider() == nullptr)
+				continue;
+
+			//looping through all the objects to test collision
+			for (GameObject* TestGO : GameObjectStack) {
+				//is there a collider on the test game object - ignore it if not
+				if (TestGO->GetCollider() == nullptr || TestGO == GO)
+					continue;
+
+				//if they are intersecting then detect the collision
+				if (AABBCollision::IsIntersecting(*GO->GetCollider(), *TestGO->GetCollider())) {
+					GO->DetectCollisions(TestGO);
+				}
 			}
 		}
 	}
-
 }
 
 void Game::Draw()
@@ -236,8 +247,30 @@ void Game::Draw()
 
 }
 
+void Game::GarbageCollection()
+{
+	//loop through all game objects and delete them if needed
+	for (TArray<GameObject*>::iterator i = GameObjectStack.begin(); i < GameObjectStack.end();) {
+		if ((*i)->ShouldDestroy()) {
+			delete (*i);
+			(*i) = nullptr;
+			//erase provides i with a proper updated iterator if the size has changed
+			i = GameObjectStack.erase(i);
+			continue;
+		}
+
+		i++;
+	}
+}
+
 void Game::CleanUpGame()
 {
+	//clean up all game objects
+	for (GameObject* GO : GameObjectStack) {
+		if (GO != nullptr)
+			delete GO;
+	}
+
 	//destroy the graphics engine
 	if (Graphics != nullptr) {
 		delete Graphics;
