@@ -143,43 +143,73 @@ void Game::BeginPlay()
 
 	//Create a point light
 	PointLight* L = CreatePointLight(10.0f, glm::vec3(1.0f), false);
-	L->Transform.Location = glm::vec3(5.0f, 0.0f, 0.0f);
+	L->Transform.Location = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	PointLight* L2 = CreatePointLight(-30.0f, glm::vec3(1.0f), false);
 	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
 
 	//Create collectible objects
-		//ColTrans.Location.x = Location of Rings based on course
+		//ColTrans.Location.x/z = Location of Rings based on course - X is forwards/backwards and Z is left/right
 	PPTransform ColTrans;
+
+	//Ring 1
 	ColTrans.Location.x = 3.0f;
+	ColTrans.Location.z = 0.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 90.0f);
 	Collectible* CP1 = new Collectible(ColTrans, 0);
 
-	ColTrans.Location.x += 3.0f;
-	ColTrans.Location.z = 5.0f;
+	//Ring 2
+	ColTrans.Location.x = 10.0f;
+	ColTrans.Location.z = -5.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
 	Collectible* CP2 = new Collectible(ColTrans, 1);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 3
+	ColTrans.Location.x = 10.0f;
+	ColTrans.Location.z = -20.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
 	Collectible* CP3 = new Collectible(ColTrans, 2);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 4
+	ColTrans.Location.x = 18.0f;
+	ColTrans.Location.z = -30.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 75.0f);
 	Collectible* CP4 = new Collectible(ColTrans, 3);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 5
+	ColTrans.Location.x = 5.0f;
+	ColTrans.Location.z = -40.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 90.0f);
 	Collectible* CP5 = new Collectible(ColTrans, 4);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 6
+	ColTrans.Location.x = -5.0f;
+	ColTrans.Location.z = -30.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
 	Collectible* CP6 = new Collectible(ColTrans, 5);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 7
+	ColTrans.Location.x = -10.0f;
+	ColTrans.Location.z = -15.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 40.0f);
 	Collectible* CP7 = new Collectible(ColTrans, 6);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 8
+	ColTrans.Location.x = -20.0f;
+	ColTrans.Location.z = -10.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 50.0f);
 	Collectible* CP8 = new Collectible(ColTrans, 7);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 9
+	ColTrans.Location.x = -22.0f;
+	ColTrans.Location.z = 5.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, -50.0f);
 	Collectible* CP9 = new Collectible(ColTrans, 8);
 
-	ColTrans.Location.x += 3.0f;
+	//Ring 10
+	ColTrans.Location.x = -10.0f;
+	ColTrans.Location.z = 5.0f;
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 30.0f);
 	Collectible* CP10 = new Collectible(ColTrans, 9);
 
 	//Set the next collectible in the sequence

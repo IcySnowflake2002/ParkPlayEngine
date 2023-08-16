@@ -10,6 +10,7 @@ public: //functions
 
 	virtual void DetectCollisions(GameObject* OtherObject) override;
 
+	//Checkpoint System
 	void SetNextCollectible(Collectible* OtherCollectible) { this->OtherCollectible = OtherCollectible; }
 
 	void ReadyNextCollectible();
@@ -39,6 +40,7 @@ protected: //variables
 	//texture pointers
 	Texture* ActiveTexture;
 	Texture* CollectedTexture;
+	Texture* FinishedTexture;
 
 	Collectible* OtherCollectible;
 };

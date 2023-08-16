@@ -12,6 +12,7 @@ Collectible::Collectible(PPTransform Transform, int Order)
 	bIsActive = false;
 	ActiveTexture = nullptr;
 	CollectedTexture = nullptr;
+	FinishedTexture = nullptr;
 	this->Order = Order;
 }
 
@@ -20,7 +21,6 @@ void Collectible::BeginPlay()
 	Model* M = AddModel("Engine/developer/models/ring/ring basic.obj");
 
 	//Preset transforms
-	Transform.Rotation = glm::vec3(90.0f, 0.0f, 90.0f);
 	Transform.Scale = glm::vec3(0.010f);
 
 	//Not Ready Yet
@@ -61,8 +61,6 @@ void Collectible::Activate()
 
 	if (OtherCollectible != nullptr)
 		OtherCollectible->ReadyNextCollectible();
-	//else
-		//Game::GetGameInstance()->CloseGame();
 }
 
 void Collectible::ReadyNextCollectible()
