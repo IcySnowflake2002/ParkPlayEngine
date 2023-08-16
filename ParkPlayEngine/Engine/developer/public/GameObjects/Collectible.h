@@ -4,13 +4,15 @@
 
 class Collectible : public GameObject {
 public: //functions
-	Collectible(PPTransform Transform) : GameObject(Transform), bActivated(false), ActiveTexture(nullptr) {}
+	Collectible(PPTransform Transform, int Order);
 
 	virtual void BeginPlay() override;
 
 	virtual void DetectCollisions(GameObject* OtherObject) override;
 
-	void Activate(); 
+	void SetNextCollectible(Collectible* OtherCollectible) { this->OtherCollectible = OtherCollectible; }
+
+	void ReadyNextCollectible();
 
 public: //variables
 
@@ -22,11 +24,21 @@ private: //variables
 
 
 protected: //functions
-
+	void Activate();
 
 protected: //variables
+	//check if the collectible has been activated
 	bool bActivated;
 
-	Texture* ActiveTexture;
+	//check if the collectible is ready
+	bool bIsActive;
 
+	//Order of collectibles
+	int Order;
+
+	//texture pointers
+	Texture* ActiveTexture;
+	Texture* CollectedTexture;
+
+	Collectible* OtherCollectible;
 };

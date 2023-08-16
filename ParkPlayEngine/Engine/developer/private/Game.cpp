@@ -149,18 +149,63 @@ void Game::BeginPlay()
 	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
 
 	//Create collectible objects
+		//ColTrans.Location.x = Location of Rings based on course
 	PPTransform ColTrans;
 	ColTrans.Location.x = 3.0f;
-	ColTrans.Scale = glm::vec3(0.1f);
-	GameObject* CollectibleObj = new Collectible(ColTrans);
-	AddGameObjectToGame(CollectibleObj);
+	Collectible* CP1 = new Collectible(ColTrans, 0);
 
 	ColTrans.Location.x += 3.0f;
-	GameObject* CollectibleObj2 = new Collectible(ColTrans);
-	AddGameObjectToGame(CollectibleObj2);
+	Collectible* CP2 = new Collectible(ColTrans, 1);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP3 = new Collectible(ColTrans, 2);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP4 = new Collectible(ColTrans, 3);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP5 = new Collectible(ColTrans, 4);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP6 = new Collectible(ColTrans, 5);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP7 = new Collectible(ColTrans, 6);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP8 = new Collectible(ColTrans, 7);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP9 = new Collectible(ColTrans, 8);
+
+	ColTrans.Location.x += 3.0f;
+	Collectible* CP10 = new Collectible(ColTrans, 9);
+
+	//Set the next collectible in the sequence
+	CP1->SetNextCollectible(CP2);
+	CP2->SetNextCollectible(CP3);
+	CP3->SetNextCollectible(CP4);
+	CP4->SetNextCollectible(CP5);
+	CP5->SetNextCollectible(CP6);
+	CP6->SetNextCollectible(CP7);
+	CP7->SetNextCollectible(CP8);
+	CP8->SetNextCollectible(CP9);
+	CP9->SetNextCollectible(CP10);
 
 	//create a player object
 	GameObject* PlayerObj = new Player(PPTransform());
+
+	//Add GameObjects to stack
+	AddGameObjectToGame(CP1);
+	AddGameObjectToGame(CP2);
+	AddGameObjectToGame(CP3);
+	AddGameObjectToGame(CP4);
+	AddGameObjectToGame(CP5);
+	AddGameObjectToGame(CP6);
+	AddGameObjectToGame(CP7);
+	AddGameObjectToGame(CP8);
+	AddGameObjectToGame(CP9);
+	AddGameObjectToGame(CP10);
 	AddGameObjectToGame(PlayerObj);
 
 	//Run the BeginPlay functions for all game objects

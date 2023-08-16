@@ -3,6 +3,8 @@ C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\publi
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,20): warning C4099: 'ShapeMatrices': type name first seen using 'struct' now seen using 'class'
 C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+  GameObject.cpp
+  Generating Code...
   ParkPlayEngine.vcxproj -> C:\Users\mille\source\repos\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll
   C:\Users\mille\source\repos\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
