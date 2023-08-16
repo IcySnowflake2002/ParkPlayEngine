@@ -155,6 +155,7 @@ void Game::BeginPlay()
 	Collectible* CP1 = new Collectible(ColTrans, 0);
 
 	ColTrans.Location.x += 3.0f;
+	ColTrans.Location.z = 5.0f;
 	Collectible* CP2 = new Collectible(ColTrans, 1);
 
 	ColTrans.Location.x += 3.0f;
