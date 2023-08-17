@@ -4,6 +4,7 @@
 #include "graphics/Texture.h"
 #include "Game.h"
 #include "GameObjects/Player.h"
+#include "SDL2/SDL_mixer.h"
 
 Collectible::Collectible(PPTransform Transform, int Order)
 	: GameObject(Transform)
@@ -58,6 +59,14 @@ void Collectible::Activate()
 	bActivated = true;
 
 	ModelsRef[0]->SetTextureByMaterial(1, ETEXTYPES::BaseColor, CollectedTexture);
+	//play sound effect
+
+	sfx_Collect[0] = Mix_LoadWAV("Engine/developer/audio/collect.wav");
+
+	if (sfx_Collect[0] == NULL)
+		PP_MSG_ERR("Collectible", "Couldn't load sfx");
+
+	Mix_VolumeChunk(sfx_Collect[0], 75);
 
 	if (OtherCollectible != nullptr)
 		OtherCollectible->ReadyNextCollectible();

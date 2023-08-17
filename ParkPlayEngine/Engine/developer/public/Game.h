@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "PPTransform.h"
+#include "SDL2/SDL_mixer.h"
 
 class GraphicsEngine;
 class Texture;
@@ -106,6 +107,9 @@ private: //variables
 
 	//hold the graphics engine
 	GraphicsEngine* Graphics;
+
+	//store the BGM music
+	Mix_Music* SSBGM;
 
 	//the time between each frame
 	double DeltaTime;

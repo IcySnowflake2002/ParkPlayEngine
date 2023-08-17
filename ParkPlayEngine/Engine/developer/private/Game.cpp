@@ -12,6 +12,7 @@
 #include "GameObjects/Collectible.h"
 #include "GameObjects/Player.h"
 #include "physics/AABBCollision.h"
+#include "SDL2/SDL_mixer.h"
 
 Game* Game::GetGameInstance()
 {
@@ -129,6 +130,13 @@ bool Game::Initialise()
 
 	//create new object of the Input
 	GameInput = new Input();
+
+	//play audio
+	SSBGM = Mix_LoadMUS("Engine/developer/audio/bgm.wav");
+
+	if (Mix_PlayMusic(SSBGM, -1) == -1 || SSBGM == nullptr) {
+		PP_MSG_ERR("Game", "Music failed to load");
+	}
 
 	return true;
 }
@@ -250,6 +258,7 @@ void Game::BeginPlay()
 		if (GO != nullptr)
 			GO->BeginPlay();
 	}
+
 }
 
 void Game::ProcessInput()

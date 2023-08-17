@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameObjects/GameObject.h"
+#include "SDL2/SDL_mixer.h"
 
 class Collectible : public GameObject {
 public: //functions
@@ -36,6 +37,9 @@ protected: //variables
 
 	//Order of collectibles
 	int Order;
+
+	//store the Sound Effects
+	Mix_Chunk* sfx_Collect[1] = { nullptr };
 
 	//texture pointers
 	Texture* ActiveTexture;

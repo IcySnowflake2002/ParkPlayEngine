@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)ParkPlayEngine\Engine\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;opengl32.lib;assimp-vc143-mtd.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)ParkPlayEngine\Engine\dependencies\dll\*.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\dependencies\includes\STBIMAGE\stb_image.cpp" />
     <ClCompile Include="Engine\developer\private\Game.cpp" />
+    <ClCompile Include="Engine\developer\private\GameObjects\Cloud.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\Collectible.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\Player.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Engine\developer\private\HeaderTemplate.h" />
     <ClInclude Include="Engine\developer\public\CoreMinimal.h" />
     <ClInclude Include="Engine\developer\public\Game.h" />
+    <ClInclude Include="Engine\developer\public\GameObjects\Cloud.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\Collectible.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\Player.h" />
