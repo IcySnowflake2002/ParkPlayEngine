@@ -9,6 +9,7 @@
 #include "GLM/gtc/matrix_transform.hpp"
 #include "graphics/ShapeMatrices.h"
 #include "graphics/Lights.h"
+#include "Sound/SoundSystem.h"
 
 #define MAX_LIGHTS_DIR 3
 #define	MAX_LIGHTS_POINT 20

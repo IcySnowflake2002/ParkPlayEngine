@@ -141,12 +141,18 @@ void Game::BeginPlay()
 	//Create a directional light
 	CreateDirLight(glm::vec3(-70.0f), glm::vec3(1.0f, 1.0f, 0.5f));
 
-	//Create a point light
-	PointLight* L = CreatePointLight(10.0f, glm::vec3(1.0f), false);
+	//Create point lights
+	PointLight* L = CreatePointLight(50.0f, glm::vec3(1.0f), false);
 	L->Transform.Location = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	PointLight* L2 = CreatePointLight(-30.0f, glm::vec3(1.0f), false);
-	L2->Transform.Location = glm::vec3(-5.0f, 0.0f, 5.0f);
+	PointLight* L2 = CreatePointLight(50.0f, glm::vec3(1.0f), false);
+	L2->Transform.Location = glm::vec3(-10.0f, 0.0f, -20.0f);
+
+	PointLight* L3 = CreatePointLight(50.0f, glm::vec3(1.0f), false);
+	L3->Transform.Location = glm::vec3(20.0f, 0.0f, -30.0f);
+
+	PointLight* L4 = CreatePointLight(50.0f, glm::vec3(1.0f), false);
+	L4->Transform.Location = glm::vec3(-30.0f, 0.0f, 0.0f);
 
 	//Create collectible objects
 		//ColTrans.Location.x/z = Location of Rings based on course - X is forwards/backwards and Z is left/right
