@@ -1,6 +1,43 @@
-﻿  ParkPlayEngine.vcxproj -> D:\Users\9092\Documents\GitHub\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
-  D:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll
-  D:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
-  D:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
-  D:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2_mixer.dll
+﻿  stb_image.cpp
+  Game.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,20): warning C4099: 'ShapeMatrices': type name first seen using 'struct' now seen using 'class'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+  Cloud.cpp
+  Collectible.cpp
+  GameObject.cpp
+  Player.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GameObjects\Player.cpp(49,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GameObjects\Player.cpp(50,15): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  GraphicsEngine.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(178,108): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\GraphicsEngine.cpp(181,114): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Camera.cpp
+  Lights.cpp
+  Material.cpp
+  Mesh.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Model.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Mesh.h(7,21): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\Model.h(7,7): message : see declaration of 'ShapeMatrices'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,22): warning C4099: 'ShapeMatrices': type name first seen using 'class' now seen using 'struct'
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\public\graphics\ShapeMatrices.h(20,8): message : see declaration of 'ShapeMatrices'
+  ShaderProgram.cpp
+  Texture.cpp
+  VertexArrayObject.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\graphics\VertexArrayObject.cpp(106,67): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Input.cpp
+C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\developer\private\Input.cpp(17,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  AABBCollision.cpp
+  Source.cpp
+  Generating Code...
+  ParkPlayEngine.vcxproj -> C:\Users\9092\Documents\GitHub\ParkPlayEngine\x64\Debug\ParkPlayEngine.exe
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\assimp-vc143-mtd.dll
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\glew32.dll
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2.dll
+  C:\Users\9092\Documents\GitHub\ParkPlayEngine\ParkPlayEngine\Engine\dependencies\dll\SDL2_mixer.dll
           4 file(s) copied.

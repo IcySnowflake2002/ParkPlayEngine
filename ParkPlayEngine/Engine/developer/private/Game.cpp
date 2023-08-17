@@ -10,6 +10,7 @@
 #include "graphics/Material.h"
 #include "GameObjects/GameObject.h"
 #include "GameObjects/Collectible.h"
+#include "GameObjects/Cloud.h"
 #include "GameObjects/Player.h"
 #include "physics/AABBCollision.h"
 #include "SDL2/SDL_mixer.h"
@@ -239,6 +240,10 @@ void Game::BeginPlay()
 
 	//create a player object
 	GameObject* PlayerObj = new Player(PPTransform());
+
+	//create a cloud decor object
+	GameObject* CloudObj = new Cloud(PPTransform());
+
 
 	//Add GameObjects to stack
 	AddGameObjectToGame(CP1);

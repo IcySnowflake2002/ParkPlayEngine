@@ -4,7 +4,9 @@
 
 class Cloud : public GameObject {
 public: //functions
+	Cloud(PPTransform DefaultTransform);
 
+	virtual void BeginPlay() override;
 
 public: //variables
 
