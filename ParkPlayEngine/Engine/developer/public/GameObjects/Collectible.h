@@ -44,7 +44,6 @@ protected: //variables
 	//texture pointers
 	Texture* ActiveTexture;
 	Texture* CollectedTexture;
-	Texture* FinishedTexture;
 
 	Collectible* OtherCollectible;
 };

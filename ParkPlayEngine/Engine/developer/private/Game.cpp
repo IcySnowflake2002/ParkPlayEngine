@@ -10,7 +10,6 @@
 #include "graphics/Material.h"
 #include "GameObjects/GameObject.h"
 #include "GameObjects/Collectible.h"
-#include "GameObjects/Cloud.h"
 #include "GameObjects/Player.h"
 #include "physics/AABBCollision.h"
 #include "SDL2/SDL_mixer.h"
@@ -132,6 +131,12 @@ bool Game::Initialise()
 	//create new object of the Input
 	GameInput = new Input();
 
+	//initalise audio
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == 1) {
+		PP_MSG_ERR("Game", "SDL_Mixer failed to initialise");
+		return false;
+	}
+
 	//play audio
 	SSBGM = Mix_LoadMUS("Engine/developer/audio/bgm.wav");
 
@@ -186,9 +191,9 @@ void Game::BeginPlay()
 	Collectible* CP3 = new Collectible(ColTrans, 2);
 
 	//Ring 4
-	ColTrans.Location.x = 18.0f;
+	ColTrans.Location.x = 15.0f;
 	ColTrans.Location.z = -30.0f;
-	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 75.0f);
+	ColTrans.Rotation = glm::vec3(90.0f, 0.0f, 0.0f);
 	Collectible* CP4 = new Collectible(ColTrans, 3);
 
 	//Ring 5
@@ -240,10 +245,6 @@ void Game::BeginPlay()
 
 	//create a player object
 	GameObject* PlayerObj = new Player(PPTransform());
-
-	//create a cloud decor object
-	GameObject* CloudObj = new Cloud(PPTransform());
-
 
 	//Add GameObjects to stack
 	AddGameObjectToGame(CP1);

@@ -135,7 +135,6 @@
   <ItemGroup>
     <ClCompile Include="Engine\dependencies\includes\STBIMAGE\stb_image.cpp" />
     <ClCompile Include="Engine\developer\private\Game.cpp" />
-    <ClCompile Include="Engine\developer\private\GameObjects\Cloud.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\Collectible.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\GameObject.cpp" />
     <ClCompile Include="Engine\developer\private\GameObjects\Player.cpp" />
@@ -157,7 +156,6 @@
     <ClInclude Include="Engine\developer\private\HeaderTemplate.h" />
     <ClInclude Include="Engine\developer\public\CoreMinimal.h" />
     <ClInclude Include="Engine\developer\public\Game.h" />
-    <ClInclude Include="Engine\developer\public\GameObjects\Cloud.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\Collectible.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\GameObject.h" />
     <ClInclude Include="Engine\developer\public\GameObjects\Player.h" />

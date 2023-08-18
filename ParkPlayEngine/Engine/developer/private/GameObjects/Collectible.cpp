@@ -13,13 +13,18 @@ Collectible::Collectible(PPTransform Transform, int Order)
 	bIsActive = false;
 	ActiveTexture = nullptr;
 	CollectedTexture = nullptr;
-	FinishedTexture = nullptr;
 	this->Order = Order;
 }
 
 void Collectible::BeginPlay()
 {
 	Model* M = AddModel("Engine/developer/models/ring/ring basic.obj");
+
+	//initalise audio
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == 1) {
+		PP_MSG_ERR("Collectible", "SDL_Mixer failed to initialise");
+		return;
+	}
 
 	//Preset transforms
 	Transform.Scale = glm::vec3(0.010f);
@@ -66,10 +71,15 @@ void Collectible::Activate()
 	if (sfx_Collect[0] == NULL)
 		PP_MSG_ERR("Collectible", "Couldn't load sfx");
 
-	Mix_VolumeChunk(sfx_Collect[0], 75);
+	Mix_VolumeChunk(sfx_Collect[0], 100);
 
-	if (OtherCollectible != nullptr)
+	if (OtherCollectible != nullptr) {
 		OtherCollectible->ReadyNextCollectible();
+	}
+	else {
+		Game::GetGameInstance()->CloseGame();
+	}
+
 }
 
 void Collectible::ReadyNextCollectible()
